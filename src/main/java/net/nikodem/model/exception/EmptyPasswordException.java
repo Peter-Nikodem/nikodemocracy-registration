@@ -3,7 +3,7 @@ package net.nikodem.model.exception;
 /**
  * @author Peter Nikodem
  */
-public final class EmptyPasswordException extends UserRegistrationException {
+public final class EmptyPasswordException extends VoterRegistrationException {
 
     @Override
     protected String getSpecifiedErrorMessage() {

@@ -1,16 +1,16 @@
 package net.nikodem.model.dto;
 
-import net.nikodem.model.json.UserRegistration;
+import net.nikodem.model.json.VoterRegistration;
 
 /**
  * @author Peter Nikodem
  */
-public class UserRegistrationDetails {
+public class VoterRegistrationDetails {
     private final String username;
     private final String password;
     private final String repeatedPassword;
 
-    public UserRegistrationDetails(String username, String password, String repeatedPassword) {
+    public VoterRegistrationDetails(String username, String password, String repeatedPassword) {
         this.username = username;
         this.password = password;
         this.repeatedPassword = repeatedPassword;
@@ -28,7 +28,7 @@ public class UserRegistrationDetails {
         return repeatedPassword;
     }
 
-    public static UserRegistrationDetails createFromJson(UserRegistration userRegistration) {
-        return new UserRegistrationDetails(userRegistration.getUsername(),userRegistration.getPassword(),userRegistration.getRepeatedPassword());
+    public static VoterRegistrationDetails createFromJson(VoterRegistration voterRegistration) {
+        return new VoterRegistrationDetails(voterRegistration.getUsername(), voterRegistration.getPassword(), voterRegistration.getRepeatedPassword());
     }
 }

@@ -3,7 +3,7 @@ package net.nikodem.model.exception;
 /**
  * @author Peter Nikodem
  */
-public final class UsernameAlreadyExistsException extends UserRegistrationException {
+public final class UsernameAlreadyExistsException extends VoterRegistrationException {
 
     @Override
     protected String getSpecifiedErrorMessage() {

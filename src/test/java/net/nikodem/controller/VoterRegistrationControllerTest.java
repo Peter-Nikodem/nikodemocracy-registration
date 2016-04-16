@@ -1,13 +1,12 @@
 package net.nikodem.controller;
 
 import net.nikodem.TestUtils;
-import net.nikodem.model.dto.UserRegistrationDetails;
 import net.nikodem.model.exception.EmptyPasswordException;
 import net.nikodem.model.exception.EmptyUsernameException;
 import net.nikodem.model.exception.RepeatedPasswordDoesNotMatchException;
 import net.nikodem.model.exception.UsernameAlreadyExistsException;
-import net.nikodem.model.json.UserRegistration;
-import net.nikodem.service.UserRegistrationService;
+import net.nikodem.model.json.VoterRegistration;
+import net.nikodem.service.VoterRegistrationService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -25,40 +24,40 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * @author Peter Nikodem
  */
-public class UserRegistrationControllerTest {
+public class VoterRegistrationControllerTest {
 
     private MockMvc mockMvc;
 
     @Mock
-    private UserRegistrationService userRegistrationServiceMock;
+    private VoterRegistrationService voterRegistrationServiceMock;
 
     @InjectMocks
-    private UserRegistrationController userRegistrationController;
+    private VoterRegistrationController voterRegistrationController;
 
-    private UserRegistration userRegistration = new UserRegistration("peter","password","password");
+    private VoterRegistration voterRegistration = new VoterRegistration("peter","password","password");
 
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        this.mockMvc = MockMvcBuilders.standaloneSetup(userRegistrationController).build();
+        this.mockMvc = MockMvcBuilders.standaloneSetup(voterRegistrationController).build();
     }
 
     @Test
-    public void registerNewUser_ShouldReturnHttpCodeCreated_WhenValidationPasses() throws Exception {
-        doNothing().when(userRegistrationServiceMock).registerUser(any());
+    public void registerVoter_ShouldReturnHttpCodeCreated_WhenValidationPasses() throws Exception {
+        doNothing().when(voterRegistrationServiceMock).registerUser(any());
         mockMvc.perform(post("/users")
                 .contentType(TestUtils.APPLICATION_JSON_UTF8)
-                .content(TestUtils.convertObjectToJsonBytes(userRegistration))
+                .content(TestUtils.convertObjectToJsonBytes(voterRegistration))
         )
                 .andExpect(status().isCreated());
     }
 
     @Test
-    public void registerNewUser_ShouldReturnError_WhenUsernameAlreadyExists() throws Exception {
-        doThrow(UsernameAlreadyExistsException.class).when(userRegistrationServiceMock).registerUser(any());
+    public void registerVoter_ShouldReturnError_WhenUsernameAlreadyExists() throws Exception {
+        doThrow(UsernameAlreadyExistsException.class).when(voterRegistrationServiceMock).registerUser(any());
         mockMvc.perform(post("/users")
                 .contentType(TestUtils.APPLICATION_JSON_UTF8)
-                .content(TestUtils.convertObjectToJsonBytes(userRegistration))
+                .content(TestUtils.convertObjectToJsonBytes(voterRegistration))
         )
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(TestUtils.APPLICATION_JSON_UTF8))
@@ -67,11 +66,11 @@ public class UserRegistrationControllerTest {
     }
 
     @Test
-    public void registerNewUser_ShouldReturnError_WhenPasswordsDoNotMatch() throws Exception {
-        doThrow(RepeatedPasswordDoesNotMatchException.class).when(userRegistrationServiceMock).registerUser(any());
+    public void registerVoter_ShouldReturnError_WhenPasswordsDoNotMatch() throws Exception {
+        doThrow(RepeatedPasswordDoesNotMatchException.class).when(voterRegistrationServiceMock).registerUser(any());
         mockMvc.perform(post("/users")
                 .contentType(TestUtils.APPLICATION_JSON_UTF8)
-                .content(TestUtils.convertObjectToJsonBytes(userRegistration))
+                .content(TestUtils.convertObjectToJsonBytes(voterRegistration))
         )
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(TestUtils.APPLICATION_JSON_UTF8))
@@ -80,11 +79,11 @@ public class UserRegistrationControllerTest {
     }
 
     @Test
-    public void registerNewUser_ShouldReturnError_WhenUsernameIsEmpty() throws Exception {
-        doThrow(EmptyUsernameException.class).when(userRegistrationServiceMock).registerUser(any());
+    public void registerVoter_ShouldReturnError_WhenUsernameIsEmpty() throws Exception {
+        doThrow(EmptyUsernameException.class).when(voterRegistrationServiceMock).registerUser(any());
         mockMvc.perform(post("/users")
                 .contentType(TestUtils.APPLICATION_JSON_UTF8)
-                .content(TestUtils.convertObjectToJsonBytes(userRegistration))
+                .content(TestUtils.convertObjectToJsonBytes(voterRegistration))
         )
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(TestUtils.APPLICATION_JSON_UTF8))
@@ -93,11 +92,11 @@ public class UserRegistrationControllerTest {
     }
 
     @Test
-    public void registerNewUser_ShouldReturnError_WhenPasswordIsEmpty() throws Exception {
-        doThrow(EmptyPasswordException.class).when(userRegistrationServiceMock).registerUser(any());
+    public void registerVoter_ShouldReturnError_WhenPasswordIsEmpty() throws Exception {
+        doThrow(EmptyPasswordException.class).when(voterRegistrationServiceMock).registerUser(any());
         mockMvc.perform(post("/users")
                 .contentType(TestUtils.APPLICATION_JSON_UTF8)
-                .content(TestUtils.convertObjectToJsonBytes(userRegistration))
+                .content(TestUtils.convertObjectToJsonBytes(voterRegistration))
         )
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(TestUtils.APPLICATION_JSON_UTF8))

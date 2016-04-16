@@ -3,7 +3,7 @@ package net.nikodem.model.exception;
 /**
  * @author Peter Nikodem
  */
-public final class RepeatedPasswordDoesNotMatchException extends UserRegistrationException {
+public final class RepeatedPasswordDoesNotMatchException extends VoterRegistrationException {
 
     @Override
     protected String getSpecifiedErrorMessage(){
