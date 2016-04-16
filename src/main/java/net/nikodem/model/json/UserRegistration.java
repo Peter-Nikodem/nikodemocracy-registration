@@ -7,13 +7,10 @@ import javax.validation.constraints.NotNull;
  */
 public class UserRegistration {
 
-    @NotNull
     private String username;
 
-    @NotNull
     private String password;
 
-    @NotNull
     private String repeatedPassword;
 
     public UserRegistration(String username, String password, String repeatedPassword) {
