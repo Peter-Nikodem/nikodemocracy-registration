@@ -1,6 +1,6 @@
 package net.nikodem.controller;
 
-import net.nikodem.model.dto.VoterRegistrationDetails;
+import net.nikodem.model.dto.VoterRegistrationDto;
 import net.nikodem.model.exception.VoterRegistrationException;
 import net.nikodem.model.json.ErrorMessage;
 import net.nikodem.model.json.VoterRegistration;
@@ -27,7 +27,7 @@ public class VoterRegistrationController {
     @RequestMapping(value = "/users", method = RequestMethod.POST)
     public ResponseEntity<ErrorMessage> registerNewUser(@RequestBody VoterRegistration voterRegistration, HttpServletResponse response){
         try {
-            voterRegistrationService.registerUser(VoterRegistrationDetails.createFromJson(voterRegistration));
+            voterRegistrationService.registerVoter(VoterRegistrationDto.createFromJson(voterRegistration));
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (VoterRegistrationException ex){
             return new ResponseEntity<>(ex.getErrorMessageJson(),HttpStatus.BAD_REQUEST);

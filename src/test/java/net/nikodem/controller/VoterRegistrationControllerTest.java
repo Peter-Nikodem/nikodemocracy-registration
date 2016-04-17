@@ -44,7 +44,7 @@ public class VoterRegistrationControllerTest {
 
     @Test
     public void registerVoter_ShouldReturnHttpCodeCreated_WhenValidationPasses() throws Exception {
-        doNothing().when(voterRegistrationServiceMock).registerUser(any());
+        doNothing().when(voterRegistrationServiceMock).registerVoter(any());
         mockMvc.perform(post("/users")
                 .contentType(TestUtils.APPLICATION_JSON_UTF8)
                 .content(TestUtils.convertObjectToJsonBytes(voterRegistration))
@@ -54,7 +54,7 @@ public class VoterRegistrationControllerTest {
 
     @Test
     public void registerVoter_ShouldReturnError_WhenUsernameAlreadyExists() throws Exception {
-        doThrow(UsernameAlreadyExistsException.class).when(voterRegistrationServiceMock).registerUser(any());
+        doThrow(UsernameAlreadyExistsException.class).when(voterRegistrationServiceMock).registerVoter(any());
         mockMvc.perform(post("/users")
                 .contentType(TestUtils.APPLICATION_JSON_UTF8)
                 .content(TestUtils.convertObjectToJsonBytes(voterRegistration))
@@ -67,7 +67,7 @@ public class VoterRegistrationControllerTest {
 
     @Test
     public void registerVoter_ShouldReturnError_WhenPasswordsDoNotMatch() throws Exception {
-        doThrow(RepeatedPasswordDoesNotMatchException.class).when(voterRegistrationServiceMock).registerUser(any());
+        doThrow(RepeatedPasswordDoesNotMatchException.class).when(voterRegistrationServiceMock).registerVoter(any());
         mockMvc.perform(post("/users")
                 .contentType(TestUtils.APPLICATION_JSON_UTF8)
                 .content(TestUtils.convertObjectToJsonBytes(voterRegistration))
@@ -80,7 +80,7 @@ public class VoterRegistrationControllerTest {
 
     @Test
     public void registerVoter_ShouldReturnError_WhenUsernameIsEmpty() throws Exception {
-        doThrow(EmptyUsernameException.class).when(voterRegistrationServiceMock).registerUser(any());
+        doThrow(EmptyUsernameException.class).when(voterRegistrationServiceMock).registerVoter(any());
         mockMvc.perform(post("/users")
                 .contentType(TestUtils.APPLICATION_JSON_UTF8)
                 .content(TestUtils.convertObjectToJsonBytes(voterRegistration))
@@ -93,7 +93,7 @@ public class VoterRegistrationControllerTest {
 
     @Test
     public void registerVoter_ShouldReturnError_WhenPasswordIsEmpty() throws Exception {
-        doThrow(EmptyPasswordException.class).when(voterRegistrationServiceMock).registerUser(any());
+        doThrow(EmptyPasswordException.class).when(voterRegistrationServiceMock).registerVoter(any());
         mockMvc.perform(post("/users")
                 .contentType(TestUtils.APPLICATION_JSON_UTF8)
                 .content(TestUtils.convertObjectToJsonBytes(voterRegistration))
