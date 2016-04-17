@@ -34,7 +34,7 @@ public class VoterRegistrationControllerTest {
     @InjectMocks
     private VoterRegistrationController voterRegistrationController;
 
-    private VoterRegistration voterRegistration = new VoterRegistration("peter","password","password");
+    private VoterRegistration anyVoterRegistration = new VoterRegistration("Not","important","here");
 
     @Before
     public void setup() {
@@ -47,7 +47,7 @@ public class VoterRegistrationControllerTest {
         doNothing().when(voterRegistrationServiceMock).registerVoter(any());
         mockMvc.perform(post("/users")
                 .contentType(TestUtils.APPLICATION_JSON_UTF8)
-                .content(TestUtils.convertObjectToJsonBytes(voterRegistration))
+                .content(TestUtils.convertObjectToJsonBytes(anyVoterRegistration))
         )
                 .andExpect(status().isCreated());
     }
@@ -57,7 +57,7 @@ public class VoterRegistrationControllerTest {
         doThrow(UsernameAlreadyExistsException.class).when(voterRegistrationServiceMock).registerVoter(any());
         mockMvc.perform(post("/users")
                 .contentType(TestUtils.APPLICATION_JSON_UTF8)
-                .content(TestUtils.convertObjectToJsonBytes(voterRegistration))
+                .content(TestUtils.convertObjectToJsonBytes(anyVoterRegistration))
         )
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(TestUtils.APPLICATION_JSON_UTF8))
@@ -70,7 +70,7 @@ public class VoterRegistrationControllerTest {
         doThrow(RepeatedPasswordDoesNotMatchException.class).when(voterRegistrationServiceMock).registerVoter(any());
         mockMvc.perform(post("/users")
                 .contentType(TestUtils.APPLICATION_JSON_UTF8)
-                .content(TestUtils.convertObjectToJsonBytes(voterRegistration))
+                .content(TestUtils.convertObjectToJsonBytes(anyVoterRegistration))
         )
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(TestUtils.APPLICATION_JSON_UTF8))
@@ -83,7 +83,7 @@ public class VoterRegistrationControllerTest {
         doThrow(EmptyUsernameException.class).when(voterRegistrationServiceMock).registerVoter(any());
         mockMvc.perform(post("/users")
                 .contentType(TestUtils.APPLICATION_JSON_UTF8)
-                .content(TestUtils.convertObjectToJsonBytes(voterRegistration))
+                .content(TestUtils.convertObjectToJsonBytes(anyVoterRegistration))
         )
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(TestUtils.APPLICATION_JSON_UTF8))
@@ -96,7 +96,7 @@ public class VoterRegistrationControllerTest {
         doThrow(EmptyPasswordException.class).when(voterRegistrationServiceMock).registerVoter(any());
         mockMvc.perform(post("/users")
                 .contentType(TestUtils.APPLICATION_JSON_UTF8)
-                .content(TestUtils.convertObjectToJsonBytes(voterRegistration))
+                .content(TestUtils.convertObjectToJsonBytes(anyVoterRegistration))
         )
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(TestUtils.APPLICATION_JSON_UTF8))

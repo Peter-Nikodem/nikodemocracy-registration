@@ -8,7 +8,6 @@ import net.nikodem.service.VoterRegistrationService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.SpringApplicationContextLoader
 import org.springframework.test.context.ContextConfiguration
-import spock.lang.Shared
 import spock.lang.Specification
 
 /**
@@ -21,7 +20,9 @@ class RegisterVoterUseCaseSpec extends Specification {
     VoterRegistrationService voterRegistrationService;
 
     @Autowired
-    VoterRepository voterRepository;
+    VoterRepository voterRepository
+
+    VoterRegistrationDto alicesRegistration = new VoterRegistrationDto('Alice', 'Password', 'Password')
 
     def setup() {
         voterRepository.deleteAll()
@@ -29,16 +30,16 @@ class RegisterVoterUseCaseSpec extends Specification {
 
     def "User registers as a new voter"() {
         when:
-        voterRegistrationService.registerVoter(new VoterRegistrationDto('Alice', 'Password', 'Password'))
+        voterRegistrationService.registerVoter(alicesRegistration)
         then:
         voterRepository.existsByUsername('Alice')
     }
 
     def "User tries to register with an existing username and fails"() {
         given:
-        voterRegistrationService.registerVoter(new VoterRegistrationDto('Alice', 'Password', 'Password'))
+        voterRegistrationService.registerVoter(alicesRegistration)
         when:
-        voterRegistrationService.registerVoter(new VoterRegistrationDto('Alice', 'Password', 'Password'))
+        voterRegistrationService.registerVoter(alicesRegistration)
         then:
         thrown(UsernameAlreadyExistsException)
     }
