@@ -1,6 +1,5 @@
 package net.nikodem.service;
 
-import net.nikodem.model.dto.ElectionCreationRequest;
 import net.nikodem.model.json.ElectionCreation;
 import org.springframework.stereotype.Service;
 

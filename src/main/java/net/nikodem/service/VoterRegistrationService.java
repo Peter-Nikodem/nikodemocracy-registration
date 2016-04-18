@@ -1,11 +1,11 @@
 package net.nikodem.service;
 
-import net.nikodem.model.dto.VoterRegistrationRequest;
 import net.nikodem.model.entity.VoterEntity;
 import net.nikodem.model.exception.voters.EmptyPasswordException;
 import net.nikodem.model.exception.voters.EmptyUsernameException;
 import net.nikodem.model.exception.voters.RepeatedPasswordDoesNotMatchException;
 import net.nikodem.model.exception.voters.UsernameAlreadyExistsException;
+import net.nikodem.model.json.VoterRegistration;
 import net.nikodem.repository.VoterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,13 +27,13 @@ public class VoterRegistrationService {
     }
 
     @Transactional
-    public void registerVoter(VoterRegistrationRequest voterRegistration) {
+    public void registerVoter(VoterRegistration voterRegistration) {
         validate(voterRegistration);
         ensureUniqueness(voterRegistration);
         encryptPasswordAndSaveVoter(voterRegistration);
     }
 
-    private void validate(VoterRegistrationRequest voterRegistration) throws
+    private void validate(VoterRegistration voterRegistration) throws
             EmptyUsernameException, EmptyPasswordException, RepeatedPasswordDoesNotMatchException {
         String username = voterRegistration.getUsername();
         String password = voterRegistration.getPassword();
@@ -50,7 +50,7 @@ public class VoterRegistrationService {
 
     }
 
-    private void ensureUniqueness(VoterRegistrationRequest voterRegistration) {
+    private void ensureUniqueness(VoterRegistration voterRegistration) {
         if (voterRepository.existsByUsername(voterRegistration.getUsername())) {
             throw new UsernameAlreadyExistsException();
         }
@@ -60,7 +60,7 @@ public class VoterRegistrationService {
         return passwordEncoder.encode(password);
     }
 
-    private void encryptPasswordAndSaveVoter(VoterRegistrationRequest voterRegistration) {
+    private void encryptPasswordAndSaveVoter(VoterRegistration voterRegistration) {
         String username = voterRegistration.getUsername();
         String encryptedPassword = encryptPassword(voterRegistration.getPassword());
         VoterEntity voter = new VoterEntity(username, encryptedPassword);

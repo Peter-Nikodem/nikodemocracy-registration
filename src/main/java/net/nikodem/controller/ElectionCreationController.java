@@ -1,6 +1,5 @@
 package net.nikodem.controller;
 
-import net.nikodem.model.dto.ElectionCreationRequest;
 import net.nikodem.model.exception.elections.ElectionCreationException;
 import net.nikodem.model.json.ElectionCreation;
 import net.nikodem.model.json.ErrorMessage;
