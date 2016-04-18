@@ -11,7 +11,7 @@ import spock.lang.Specification
 /**
  * @author Peter Nikodem 
  */
-class VoterRegistrationServiceTest extends Specification {
+class VoterRegistrationServiceSpec extends Specification {
     VoterRegistrationService registrationService
     VoterRepository voterRepositoryMock
 

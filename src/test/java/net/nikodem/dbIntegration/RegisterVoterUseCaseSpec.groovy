@@ -1,4 +1,4 @@
-package net.nikodem.integration
+package net.nikodem.dbIntegration
 
 import net.nikodem.NikodemocracyRegistrationApplication
 import net.nikodem.model.dto.VoterRegistrationDto

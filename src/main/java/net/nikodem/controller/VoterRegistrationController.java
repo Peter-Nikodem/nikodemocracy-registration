@@ -24,7 +24,7 @@ public class VoterRegistrationController {
     @Autowired
     private VoterRegistrationService voterRegistrationService;
 
-    @RequestMapping(value = "/users", method = RequestMethod.POST)
+    @RequestMapping(value = "/voters", method = RequestMethod.POST)
     public ResponseEntity<ErrorMessage> registerNewUser(@RequestBody VoterRegistration voterRegistration, HttpServletResponse response){
         try {
             voterRegistrationService.registerVoter(VoterRegistrationDto.createFromJson(voterRegistration));
