@@ -5,7 +5,7 @@ import net.nikodem.model.json.ErrorMessage;
 /**
  * @author Peter Nikodem
  */
-public abstract class VoterRegistrationException extends IllegalArgumentException {
+public abstract class NikodemocracyRequestException extends RuntimeException {
 
     abstract protected String getSpecifiedErrorMessage();
 

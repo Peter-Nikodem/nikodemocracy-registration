@@ -1,10 +1,10 @@
 package net.nikodem.controller
 
 import net.nikodem.TestUtils
-import net.nikodem.model.exception.EmptyPasswordException
-import net.nikodem.model.exception.EmptyUsernameException
-import net.nikodem.model.exception.RepeatedPasswordDoesNotMatchException
-import net.nikodem.model.exception.UsernameAlreadyExistsException
+import net.nikodem.model.exception.voters.EmptyPasswordException
+import net.nikodem.model.exception.voters.EmptyUsernameException
+import net.nikodem.model.exception.voters.RepeatedPasswordDoesNotMatchException
+import net.nikodem.model.exception.voters.UsernameAlreadyExistsException
 import net.nikodem.model.json.VoterRegistration
 import net.nikodem.service.VoterRegistrationService
 import org.mockito.InjectMocks

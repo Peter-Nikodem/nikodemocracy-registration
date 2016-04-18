@@ -5,12 +5,12 @@ import net.nikodem.model.json.VoterRegistration;
 /**
  * @author Peter Nikodem
  */
-public class VoterRegistrationDto {
+public class VoterRegistrationRequest {
     private final String username;
     private final String password;
     private final String repeatedPassword;
 
-    public VoterRegistrationDto(String username, String password, String repeatedPassword) {
+    public VoterRegistrationRequest(String username, String password, String repeatedPassword) {
         this.username = username;
         this.password = password;
         this.repeatedPassword = repeatedPassword;
@@ -28,7 +28,7 @@ public class VoterRegistrationDto {
         return repeatedPassword;
     }
 
-    public static VoterRegistrationDto createFromJson(VoterRegistration voterRegistration) {
-        return new VoterRegistrationDto(voterRegistration.getUsername(), voterRegistration.getPassword(), voterRegistration.getRepeatedPassword());
+    public static VoterRegistrationRequest createFromJson(VoterRegistration voterRegistration) {
+        return new VoterRegistrationRequest(voterRegistration.getUsername(), voterRegistration.getPassword(), voterRegistration.getRepeatedPassword());
     }
 }

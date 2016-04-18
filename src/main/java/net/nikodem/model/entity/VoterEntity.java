@@ -1,6 +1,6 @@
 package net.nikodem.model.entity;
 
-import net.nikodem.model.dto.VoterRegistrationDto;
+import net.nikodem.model.dto.VoterRegistrationRequest;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +13,7 @@ import javax.persistence.Id;
 @Entity(name = "Voter")
 public class VoterEntity {
 
-    public static VoterEntity createFromDto(VoterRegistrationDto voterRegistration) {
+    public static VoterEntity createFromDto(VoterRegistrationRequest voterRegistration) {
         return new VoterEntity(voterRegistration.getUsername(),voterRegistration.getPassword());
     }
 
