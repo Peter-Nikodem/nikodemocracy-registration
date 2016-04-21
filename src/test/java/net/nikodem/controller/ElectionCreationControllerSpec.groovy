@@ -7,7 +7,7 @@ import net.nikodem.model.exception.elections.EmptyQuestionException
 import net.nikodem.model.exception.elections.NotEnoughAnswersException
 import net.nikodem.model.exception.elections.NotEnoughVotersException
 import net.nikodem.model.exception.elections.VoterDoesNotExistException
-import net.nikodem.model.json.ElectionCreation
+import net.nikodem.model.json.ElectionCreationRequest
 import net.nikodem.service.ElectionCreationService
 import org.mockito.InjectMocks
 import org.mockito.Mock
@@ -16,7 +16,6 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import spock.lang.Specification
 
-import static org.hamcrest.Matchers.any
 import static org.hamcrest.Matchers.is
 import static org.hamcrest.Matchers.notNullValue
 import static org.mockito.Matchers.any
@@ -39,7 +38,7 @@ class ElectionCreationControllerSpec extends Specification {
 
     @InjectMocks
     ElectionCreationController electionCreationController
-    ElectionCreation mockElectionCreation = new ElectionCreation('Choose one, Neo!', 'Red or blue?', ['Red', 'Blue'], ['Neo', 'Trinity', 'Cypher'])
+    ElectionCreationRequest mockElectionCreation = new ElectionCreationRequest('Choose one, Neo!', 'Red or blue?', ['Red', 'Blue'], ['Neo', 'Trinity', 'Cypher'])
 
     def setup() {
         MockitoAnnotations.initMocks(this)
@@ -94,9 +93,9 @@ class ElectionCreationControllerSpec extends Specification {
 
     def "Creating election when any of the voters does not exist should return error"() {
         when:
-        doThrow(new VoterDoesNotExistException('Link')).when(electionCreationServiceMock).createElection(any())
+        doThrow(new VoterDoesNotExistException(['Link'].toSet())).when(electionCreationServiceMock).createElection(any())
         then:
-        performBadElectionCreationRequestAndVerifyThatReturnedErrorMessageIs('Voter with username "Link" not found.')
+        performBadElectionCreationRequestAndVerifyThatReturnedErrorMessageIs('Voters with usernames [Link] not found.')
     }
 
     def performBadElectionCreationRequestAndVerifyThatReturnedErrorMessageIs(String errorMessage) {

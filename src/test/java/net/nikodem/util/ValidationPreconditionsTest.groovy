@@ -9,9 +9,9 @@ import javax.validation.Validation
  */
 class ValidationPreconditionsTest extends Specification {
 
-    def "isNullOrEmpty test"() {
+    def "isNullOrEmpty returns true if string is nully or empty"() { //thanks, Magic
         expect:
-        ValidationPreconditions.isNullOrEmpty(string) | result
+        ValidationPreconditions.isNullOrEmpty(string) == result
         where:
         string       | result
         "any string" | false
@@ -21,9 +21,9 @@ class ValidationPreconditionsTest extends Specification {
         null         | true
     }
 
-    def "is"() {
+    def "hasLessThanTwoElements returns false if and only if list has two or more elements"() {
         expect:
-        ValidationPreconditions.hasLessThanTwoElements(list) | result
+        ValidationPreconditions.hasLessThanTwoElements(list) == result
         where:
         list                         | result
         ['alpha', 'beta', 'charlie'] | false

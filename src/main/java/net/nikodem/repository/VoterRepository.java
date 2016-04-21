@@ -4,6 +4,8 @@ import net.nikodem.model.entity.VoterEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Optional;
+
 /**
  * @author Peter Nikodem
  */
@@ -12,4 +14,6 @@ public interface VoterRepository extends JpaRepository<VoterEntity,Long> {
 
     @Query("SELECT CASE WHEN COUNT(v) > 0 THEN 'true' ELSE 'false' END FROM Voter v WHERE v.username = ?1")
     boolean existsByUsername(String username);
+
+    Optional<VoterEntity> findByUsername(String username);
 }

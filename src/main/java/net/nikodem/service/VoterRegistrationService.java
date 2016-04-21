@@ -12,6 +12,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static net.nikodem.util.ValidationPreconditions.isNullOrEmpty;
+
 /**
  * @author Peter Nikodem
  */
@@ -38,10 +40,10 @@ public class VoterRegistrationService {
         String username = voterRegistration.getUsername();
         String password = voterRegistration.getPassword();
         String repeatedPassword = voterRegistration.getRepeatedPassword();
-        if (username == null || username.trim().isEmpty()) {
+        if (isNullOrEmpty(username)) {
             throw new EmptyUsernameException();
         }
-        if (password == null || password.trim().isEmpty()) {
+        if (isNullOrEmpty(password)) {
             throw new EmptyPasswordException();
         }
         if (!password.equals(repeatedPassword)) {

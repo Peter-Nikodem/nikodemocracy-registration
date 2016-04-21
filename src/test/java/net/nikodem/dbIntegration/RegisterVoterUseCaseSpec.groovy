@@ -7,7 +7,9 @@ import net.nikodem.repository.VoterRepository
 import net.nikodem.service.VoterRegistrationService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.SpringApplicationContextLoader
+import org.springframework.test.annotation.Rollback
 import org.springframework.test.context.ContextConfiguration
+import org.springframework.transaction.annotation.Transactional
 import spock.lang.Specification
 
 /**
@@ -17,17 +19,15 @@ import spock.lang.Specification
 class RegisterVoterUseCaseSpec extends Specification {
 
     @Autowired
-    VoterRegistrationService voterRegistrationService;
+    VoterRegistrationService voterRegistrationService
 
     @Autowired
     VoterRepository voterRepository
 
     VoterRegistration alicesRegistration = new VoterRegistration('Alice', 'Password', 'Password')
 
-    def setup() {
-        voterRepository.deleteAll()
-    }
-
+    @Transactional
+    @Rollback
     def "User registers as a new voter"() {
         when:
         voterRegistrationService.registerVoter(alicesRegistration)
@@ -35,6 +35,8 @@ class RegisterVoterUseCaseSpec extends Specification {
         voterRepository.existsByUsername('Alice')
     }
 
+    @Transactional
+    @Rollback
     def "User tries to register with an existing username and fails"() {
         given:
         voterRegistrationService.registerVoter(alicesRegistration)
@@ -43,6 +45,4 @@ class RegisterVoterUseCaseSpec extends Specification {
         then:
         thrown(UsernameAlreadyExistsException)
     }
-
-
 }

@@ -5,16 +5,16 @@ import java.util.List;
 /**
  * @author Peter Nikodem
  */
-public class ElectionCreation {
+public class ElectionCreationRequest {
     private String electionId;
     private String question;
     private List<String> answers;
     private List<String> invitedVoters;
 
-    public ElectionCreation() {
+    public ElectionCreationRequest() {
     }
 
-    public ElectionCreation(String electionId, String question, List<String> answers, List<String> invitedVoters) {
+    public ElectionCreationRequest(String electionId, String question, List<String> answers, List<String> invitedVoters) {
         this.electionId = electionId;
         this.question = question;
         this.answers = answers;

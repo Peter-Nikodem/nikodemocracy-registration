@@ -1,17 +1,19 @@
 package net.nikodem.model.exception.elections;
 
+import java.util.Set;
+
 /**
  * @author Peter Nikodem
  */
 public class VoterDoesNotExistException extends ElectionCreationException{
-    private final String invalidUserName;
+    private final Set<String> invalidUserNames;
 
-    public VoterDoesNotExistException(String invalidUserName) {
-        this.invalidUserName = invalidUserName;
+    public VoterDoesNotExistException(Set<String> invalidUserNames) {
+        this.invalidUserNames = invalidUserNames;
     }
 
     @Override
     protected String getSpecifiedErrorMessage() {
-        return "Voter with username \"" + invalidUserName + "\" not found.";
+        return "Voters with usernames " + invalidUserNames + " not found.";
     }
 }

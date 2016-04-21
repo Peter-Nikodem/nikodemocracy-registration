@@ -1,7 +1,7 @@
 package net.nikodem.controller;
 
 import net.nikodem.model.exception.elections.ElectionCreationException;
-import net.nikodem.model.json.ElectionCreation;
+import net.nikodem.model.json.ElectionCreationRequest;
 import net.nikodem.model.json.ErrorMessage;
 import net.nikodem.service.ElectionCreationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +22,9 @@ public class ElectionCreationController {
     private ElectionCreationService electionCreationService;
 
     @RequestMapping(value ="/elections",method = RequestMethod.POST)
-    public ResponseEntity<ErrorMessage> createElection(@RequestBody ElectionCreation electionCreation){
+    public ResponseEntity<ErrorMessage> createElection(@RequestBody ElectionCreationRequest electionCreationRequest){
         try {
-            electionCreationService.createElection(electionCreation);
+            electionCreationService.createElection(electionCreationRequest);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (ElectionCreationException ex){
             return new ResponseEntity<>(ex.getErrorMessageJson(), HttpStatus.BAD_REQUEST);
