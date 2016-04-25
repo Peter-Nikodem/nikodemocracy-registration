@@ -1,6 +1,6 @@
 package net.nikodem.controller;
 
-import net.nikodem.model.exception.voters.VoterRegistrationException;
+import net.nikodem.model.exception.voter.VoterRegistrationException;
 import net.nikodem.model.json.ErrorMessage;
 import net.nikodem.model.json.VoterRegistration;
 import net.nikodem.service.VoterRegistrationService;

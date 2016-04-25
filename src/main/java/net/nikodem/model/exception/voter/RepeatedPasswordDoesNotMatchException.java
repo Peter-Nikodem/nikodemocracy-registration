@@ -1,4 +1,4 @@
-package net.nikodem.model.exception.voters;
+package net.nikodem.model.exception.voter;
 
 /**
  * @author Peter Nikodem

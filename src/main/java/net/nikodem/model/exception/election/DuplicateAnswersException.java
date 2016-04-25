@@ -1,7 +1,6 @@
-package net.nikodem.model.exception.elections;
+package net.nikodem.model.exception.election;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 
 /**

@@ -1,6 +1,6 @@
 package net.nikodem.service.validation;
 
-import net.nikodem.model.exception.elections.*;
+import net.nikodem.model.exception.election.*;
 import net.nikodem.model.json.ElectionCreationRequest;
 import net.nikodem.repository.VoterRepository;
 import org.springframework.beans.factory.annotation.Autowired;

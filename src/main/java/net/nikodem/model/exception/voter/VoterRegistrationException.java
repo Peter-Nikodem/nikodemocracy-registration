@@ -1,4 +1,4 @@
-package net.nikodem.model.exception.voters;
+package net.nikodem.model.exception.voter;
 
 import net.nikodem.model.exception.NikodemocracyRequestException;
 

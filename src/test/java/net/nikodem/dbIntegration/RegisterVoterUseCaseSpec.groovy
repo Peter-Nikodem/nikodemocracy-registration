@@ -1,7 +1,7 @@
 package net.nikodem.dbIntegration
 
 import net.nikodem.NikodemocracyRegistrationApplication
-import net.nikodem.model.exception.voters.UsernameAlreadyExistsException
+import net.nikodem.model.exception.voter.UsernameAlreadyExistsException
 import net.nikodem.model.json.VoterRegistration
 import net.nikodem.repository.VoterRepository
 import net.nikodem.service.VoterRegistrationService

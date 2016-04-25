@@ -1,12 +1,12 @@
 package net.nikodem.service.validation
 
-import net.nikodem.model.exception.elections.DuplicateAnswersException
-import net.nikodem.model.exception.elections.DuplicateVotersException
-import net.nikodem.model.exception.elections.EmptyElectionIdException
-import net.nikodem.model.exception.elections.EmptyQuestionException
-import net.nikodem.model.exception.elections.NotEnoughAnswersException
-import net.nikodem.model.exception.elections.NotEnoughVotersException
-import net.nikodem.model.exception.elections.VoterDoesNotExistException
+import net.nikodem.model.exception.election.DuplicateAnswersException
+import net.nikodem.model.exception.election.DuplicateVotersException
+import net.nikodem.model.exception.election.EmptyElectionIdException
+import net.nikodem.model.exception.election.EmptyQuestionException
+import net.nikodem.model.exception.election.NotEnoughAnswersException
+import net.nikodem.model.exception.election.NotEnoughVotersException
+import net.nikodem.model.exception.election.VoterDoesNotExistException
 import net.nikodem.model.json.ElectionCreationRequest
 import net.nikodem.repository.VoterRepository
 import spock.lang.Specification
