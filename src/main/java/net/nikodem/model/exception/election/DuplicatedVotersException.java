@@ -1,15 +1,17 @@
 package net.nikodem.model.exception.election;
 
+import net.nikodem.model.exception.NikodemocracyRequestException;
+
 import java.util.Collections;
 import java.util.Set;
 
 /**
  * @author Peter Nikodem
  */
-public class DuplicateVotersException extends ElectionCreationException {
+public class DuplicatedVotersException extends NikodemocracyRequestException {
     private final Set<String> duplicatedVoters;
 
-    public DuplicateVotersException(Set<String> duplicatedVoters) {
+    public DuplicatedVotersException(Set<String> duplicatedVoters) {
         this.duplicatedVoters = Collections.unmodifiableSet(duplicatedVoters);
     }
 

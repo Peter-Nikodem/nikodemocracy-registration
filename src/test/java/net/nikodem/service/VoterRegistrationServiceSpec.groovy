@@ -5,8 +5,10 @@ import net.nikodem.model.exception.voter.EmptyPasswordException
 import net.nikodem.model.exception.voter.EmptyUsernameException
 import net.nikodem.model.exception.voter.RepeatedPasswordDoesNotMatchException
 import net.nikodem.model.exception.voter.UsernameAlreadyExistsException
-import net.nikodem.model.json.VoterRegistration
+import net.nikodem.model.json.VoterRegistrationRequest
 import net.nikodem.repository.VoterRepository
+import net.nikodem.service.validation.VoterValidator
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import spock.lang.Specification
 
 /**
@@ -15,16 +17,22 @@ import spock.lang.Specification
 class VoterRegistrationServiceSpec extends Specification {
     VoterRegistrationService registrationService
     VoterRepository voterRepositoryMock
+    VoterValidator voterValidator
+    BCryptPasswordEncoder passwordEncoder;
 
     def setup() {
         voterRepositoryMock = Mock(VoterRepository)
         registrationService = new VoterRegistrationService()
+        voterValidator = new VoterValidator()
+        voterValidator.setVoterRepository(voterRepositoryMock)
+        registrationService.setVoterValidator(voterValidator)
         registrationService.setVoterRepository(voterRepositoryMock)
+        passwordEncoder = new BCryptPasswordEncoder()
     }
 
     def "Registering voter with empty username should throw exception"() {
         when:
-        VoterRegistration voter = new VoterRegistration('', 'Password', 'Password')
+        VoterRegistrationRequest voter = new VoterRegistrationRequest('', 'Password', 'Password')
         registrationService.registerVoter(voter)
         then:
         0 * voterRepositoryMock._(*_)
@@ -33,7 +41,7 @@ class VoterRegistrationServiceSpec extends Specification {
 
     def "Registering voter with empty password should throw exception"() {
         when:
-        VoterRegistration voter = new VoterRegistration('Alice', '', ' ');
+        VoterRegistrationRequest voter = new VoterRegistrationRequest('Alice', '', ' ');
         registrationService.registerVoter(voter)
         then:
         0 * voterRepositoryMock._(*_)
@@ -42,7 +50,7 @@ class VoterRegistrationServiceSpec extends Specification {
 
     def "Registering voter with with unmatching passwords should throw exception"() {
         when:
-        VoterRegistration voter = new VoterRegistration('Alice', 'Password', 'Passwor_')
+        VoterRegistrationRequest voter = new VoterRegistrationRequest('Alice', 'Password', 'Passwor_')
         registrationService.registerVoter(voter)
         then:
         0 * voterRepositoryMock._(*_)
@@ -51,7 +59,7 @@ class VoterRegistrationServiceSpec extends Specification {
 
     def "Registering voter with already existing username should throw exception"() {
         when:
-        VoterRegistration voter = new VoterRegistration('Alice', 'Password', 'Password')
+        VoterRegistrationRequest voter = new VoterRegistrationRequest('Alice', 'Password', 'Password')
         registrationService.registerVoter(voter)
         then:
         1 * voterRepositoryMock.existsByUsername('Alice') >> true
@@ -61,12 +69,12 @@ class VoterRegistrationServiceSpec extends Specification {
 
     def "Registering voter with valid information should store username and encrypted password"() {
         when:
-        VoterRegistration voter = new VoterRegistration('Alice', 'Password', 'Password')
+        VoterRegistrationRequest voter = new VoterRegistrationRequest('Alice', 'Password', 'Password')
         registrationService.registerVoter(voter)
         then:
         1 * voterRepositoryMock.existsByUsername('Alice') >> false
         1 * voterRepositoryMock.save({
-            it.username == 'Alice' && it.password != 'Password'
+            it.username == 'Alice' && it.password != 'Password' && passwordEncoder.matches('Password',it.password)
         })
     }
 

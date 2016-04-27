@@ -3,7 +3,7 @@ package net.nikodem.model.json;
 /**
  * @author Peter Nikodem
  */
-public class ErrorMessage {
+public class ErrorMessage extends AbstractResponse{
     private String errorMessage;
 
     public ErrorMessage(String errorMessage) {

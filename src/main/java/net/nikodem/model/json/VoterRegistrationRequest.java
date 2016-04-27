@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 /**
  * @author Peter Nikodem
  */
-public class VoterRegistration {
+public class VoterRegistrationRequest {
 
     private String username;
 
@@ -13,13 +13,13 @@ public class VoterRegistration {
 
     private String repeatedPassword;
 
-    public VoterRegistration(String username, String password, String repeatedPassword) {
+    public VoterRegistrationRequest(String username, String password, String repeatedPassword) {
         this.username = username;
         this.password = password;
         this.repeatedPassword = repeatedPassword;
     }
 
-    public VoterRegistration() {
+    public VoterRegistrationRequest() {
     }
 
     public String getUsername() {

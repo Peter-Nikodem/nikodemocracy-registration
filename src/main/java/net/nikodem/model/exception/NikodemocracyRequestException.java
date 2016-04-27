@@ -7,6 +7,8 @@ import net.nikodem.model.json.ErrorMessage;
  */
 public abstract class NikodemocracyRequestException extends RuntimeException {
 
+    public String username;
+
     abstract protected String getSpecifiedErrorMessage();
 
     public ErrorMessage getErrorMessageJson() {

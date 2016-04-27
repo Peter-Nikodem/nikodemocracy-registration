@@ -5,8 +5,9 @@ import net.nikodem.model.exception.voter.EmptyPasswordException;
 import net.nikodem.model.exception.voter.EmptyUsernameException;
 import net.nikodem.model.exception.voter.RepeatedPasswordDoesNotMatchException;
 import net.nikodem.model.exception.voter.UsernameAlreadyExistsException;
-import net.nikodem.model.json.VoterRegistration;
+import net.nikodem.model.json.VoterRegistrationRequest;
 import net.nikodem.repository.VoterRepository;
+import net.nikodem.service.validation.VoterValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,51 +21,34 @@ import static net.nikodem.util.ValidationPreconditions.isNullOrEmpty;
 @Service
 public class VoterRegistrationService {
 
+    private VoterValidator voterValidator;
     private VoterRepository voterRepository;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
 
     @Autowired
     public void setVoterRepository(VoterRepository voterRepository) {
         this.voterRepository = voterRepository;
     }
 
+    @Autowired
+    public void setVoterValidator(VoterValidator voterValidator) {
+        this.voterValidator = voterValidator;
+    }
+
     @Transactional
-    public void registerVoter(VoterRegistration voterRegistration) {
-        validate(voterRegistration);
-        ensureUniqueness(voterRegistration);
-        encryptPasswordAndSaveVoter(voterRegistration);
-    }
-
-    private void validate(VoterRegistration voterRegistration) throws
-            EmptyUsernameException, EmptyPasswordException, RepeatedPasswordDoesNotMatchException {
-        String username = voterRegistration.getUsername();
-        String password = voterRegistration.getPassword();
-        String repeatedPassword = voterRegistration.getRepeatedPassword();
-        if (isNullOrEmpty(username)) {
-            throw new EmptyUsernameException();
-        }
-        if (isNullOrEmpty(password)) {
-            throw new EmptyPasswordException();
-        }
-        if (!password.equals(repeatedPassword)) {
-            throw new RepeatedPasswordDoesNotMatchException();
-        }
-
-    }
-
-    private void ensureUniqueness(VoterRegistration voterRegistration) {
-        if (voterRepository.existsByUsername(voterRegistration.getUsername())) {
-            throw new UsernameAlreadyExistsException();
-        }
+    public void registerVoter(VoterRegistrationRequest voterRegistrationRequest) {
+        voterValidator.validate(voterRegistrationRequest);
+        encryptPasswordAndSaveVoter(voterRegistrationRequest);
     }
 
     private String encryptPassword(String password) {
         return passwordEncoder.encode(password);
     }
 
-    private void encryptPasswordAndSaveVoter(VoterRegistration voterRegistration) {
-        String username = voterRegistration.getUsername();
-        String encryptedPassword = encryptPassword(voterRegistration.getPassword());
+    private void encryptPasswordAndSaveVoter(VoterRegistrationRequest voterRegistrationRequest) {
+        String username = voterRegistrationRequest.getUsername();
+        String encryptedPassword = encryptPassword(voterRegistrationRequest.getPassword());
         VoterEntity voter = new VoterEntity(username, encryptedPassword);
         voterRepository.save(voter);
     }

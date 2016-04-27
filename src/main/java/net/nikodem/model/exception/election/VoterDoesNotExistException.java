@@ -1,11 +1,13 @@
 package net.nikodem.model.exception.election;
 
+import net.nikodem.model.exception.NikodemocracyRequestException;
+
 import java.util.Set;
 
 /**
  * @author Peter Nikodem
  */
-public class VoterDoesNotExistException extends ElectionCreationException{
+public class VoterDoesNotExistException extends NikodemocracyRequestException {
     private final Set<String> invalidUserNames;
 
     public VoterDoesNotExistException(Set<String> invalidUserNames) {

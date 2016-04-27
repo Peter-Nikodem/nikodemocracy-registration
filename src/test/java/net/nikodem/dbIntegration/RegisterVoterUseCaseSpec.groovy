@@ -2,7 +2,7 @@ package net.nikodem.dbIntegration
 
 import net.nikodem.NikodemocracyRegistrationApplication
 import net.nikodem.model.exception.voter.UsernameAlreadyExistsException
-import net.nikodem.model.json.VoterRegistration
+import net.nikodem.model.json.VoterRegistrationRequest
 import net.nikodem.repository.VoterRepository
 import net.nikodem.service.VoterRegistrationService
 import org.springframework.beans.factory.annotation.Autowired
@@ -24,7 +24,7 @@ class RegisterVoterUseCaseSpec extends Specification {
     @Autowired
     VoterRepository voterRepository
 
-    VoterRegistration alicesRegistration = new VoterRegistration('Alice', 'Password', 'Password')
+    VoterRegistrationRequest alicesRegistration = new VoterRegistrationRequest('Alice', 'Password', 'Password')
 
     @Transactional
     @Rollback

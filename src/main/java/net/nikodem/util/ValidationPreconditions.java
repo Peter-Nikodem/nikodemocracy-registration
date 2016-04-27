@@ -15,5 +15,9 @@ public class ValidationPreconditions {
         return list == null || list.size() < 2;
     }
 
+    public static <T> boolean hasLessThanThreeElements(List<T> list){
+        return list == null || list.size() <3;
+    }
+
 
 }

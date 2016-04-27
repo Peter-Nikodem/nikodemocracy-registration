@@ -1,5 +1,6 @@
 package net.nikodem.service.validation;
 
+import net.nikodem.model.exception.NikodemocracyRequestException;
 import net.nikodem.model.exception.election.*;
 import net.nikodem.model.json.ElectionCreationRequest;
 import net.nikodem.repository.VoterRepository;
@@ -11,6 +12,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static net.nikodem.util.CollectionUtils.getDuplicates;
+import static net.nikodem.util.ValidationPreconditions.hasLessThanThreeElements;
 import static net.nikodem.util.ValidationPreconditions.hasLessThanTwoElements;
 import static net.nikodem.util.ValidationPreconditions.isNullOrEmpty;
 
@@ -22,7 +24,7 @@ public class ElectionValidator {
 
     private VoterRepository voterRepository;
 
-    public void validate(ElectionCreationRequest electionCreationRequest) throws ElectionCreationException {
+    public void validate(ElectionCreationRequest electionCreationRequest) throws NikodemocracyRequestException {
         if (isNullOrEmpty(electionCreationRequest.getElectionId())) {
             throw new EmptyElectionIdException();
         }
@@ -32,16 +34,16 @@ public class ElectionValidator {
         if (hasLessThanTwoElements(electionCreationRequest.getAnswers())) {
             throw new NotEnoughAnswersException();
         }
-        if (hasLessThanTwoElements(electionCreationRequest.getInvitedVoters())) {
+        if (hasLessThanThreeElements(electionCreationRequest.getInvitedVoters())) {
             throw new NotEnoughVotersException();
         }
         Set<String> duplicateAnswers = getDuplicates(electionCreationRequest.getAnswers());
         if (!duplicateAnswers.isEmpty()) {
-            throw new DuplicateAnswersException(duplicateAnswers);
+            throw new DuplicatedAnswersException(duplicateAnswers);
         }
         Set<String> duplicateVoters = getDuplicates(electionCreationRequest.getInvitedVoters());
         if (!duplicateVoters.isEmpty()) {
-            throw new DuplicateVotersException(duplicateVoters);
+            throw new DuplicatedVotersException(duplicateVoters);
         }
         Set<String> nonExistingVoters = getNonExistingVoters(electionCreationRequest.getInvitedVoters());
         if (!nonExistingVoters.isEmpty()) {

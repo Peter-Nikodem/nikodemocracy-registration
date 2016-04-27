@@ -1,8 +1,8 @@
 package net.nikodem.controller;
 
-import net.nikodem.model.exception.voter.VoterRegistrationException;
+import net.nikodem.model.exception.NikodemocracyRequestException;
 import net.nikodem.model.json.ErrorMessage;
-import net.nikodem.model.json.VoterRegistration;
+import net.nikodem.model.json.VoterRegistrationRequest;
 import net.nikodem.service.VoterRegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,11 +22,11 @@ public class VoterRegistrationController {
     private VoterRegistrationService voterRegistrationService;
 
     @RequestMapping(value = "/voters", method = RequestMethod.POST)
-    public ResponseEntity<ErrorMessage> registerVoter(@RequestBody VoterRegistration voterRegistration){
+    public ResponseEntity<ErrorMessage> registerVoter(@RequestBody VoterRegistrationRequest voterRegistrationRequest){
         try {
-            voterRegistrationService.registerVoter(voterRegistration);
+            voterRegistrationService.registerVoter(voterRegistrationRequest);
             return new ResponseEntity<>(HttpStatus.CREATED);
-        } catch (VoterRegistrationException ex){
+        } catch (NikodemocracyRequestException ex){
             return new ResponseEntity<>(ex.getErrorMessageJson(),HttpStatus.BAD_REQUEST);
         }
     }

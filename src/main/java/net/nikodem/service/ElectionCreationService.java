@@ -1,6 +1,7 @@
 package net.nikodem.service;
 
 import net.nikodem.model.entity.ElectionEntity;
+import net.nikodem.model.exception.NikodemocracyRequestException;
 import net.nikodem.model.json.ElectionCreationRequest;
 import net.nikodem.repository.ElectionRepository;
 import net.nikodem.service.validation.ElectionValidator;
@@ -19,7 +20,7 @@ public class ElectionCreationService {
     private VoteAuthorizationService voteAuthorizationService;
 
     @Transactional
-    public void createElection(ElectionCreationRequest electionCreationRequest) {
+    public void createElection(ElectionCreationRequest electionCreationRequest) throws NikodemocracyRequestException {
         electionValidator.validate(electionCreationRequest);
         ElectionEntity electionEntity = electionRepository.save(ElectionEntity.fromCreationRequest(electionCreationRequest));
         answerService.saveAnswers(electionEntity, electionCreationRequest.getAnswers());

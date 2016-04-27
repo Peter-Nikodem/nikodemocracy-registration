@@ -1,6 +1,6 @@
 package net.nikodem.model.entity;
 
-import net.nikodem.model.json.VoterRegistration;
+import net.nikodem.model.json.VoterRegistrationRequest;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,17 +13,6 @@ import javax.persistence.Id;
 @Entity(name = "Voter")
 public class VoterEntity {
 
-    public static VoterEntity createFromDto(VoterRegistration voterRegistration) {
-        return new VoterEntity(voterRegistration.getUsername(),voterRegistration.getPassword());
-    }
-
-    public VoterEntity() {
-    }
-
-    public VoterEntity(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
 
     @Id
     @GeneratedValue
@@ -34,4 +23,32 @@ public class VoterEntity {
 
     @Column
     private String password;
+
+    public static VoterEntity createFromDto(VoterRegistrationRequest voterRegistrationRequest) {
+        return new VoterEntity(voterRegistrationRequest.getUsername(), voterRegistrationRequest.getPassword());
+    }
+
+    public VoterEntity() {
+    }
+
+    public VoterEntity(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

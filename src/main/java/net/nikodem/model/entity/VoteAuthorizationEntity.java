@@ -1,5 +1,7 @@
 package net.nikodem.model.entity;
 
+import net.nikodem.model.json.VoteAuthorizationResponse;
+
 import javax.persistence.*;
 
 /**
@@ -19,12 +21,12 @@ public class VoteAuthorizationEntity {
     private VoterEntity voter;
 
     @ManyToOne
-    private ElectionEntity electionEntity;
+    private ElectionEntity election;
 
-    public VoteAuthorizationEntity(String voterKey, VoterEntity voter, ElectionEntity electionEntity) {
+    public VoteAuthorizationEntity(String voterKey, VoterEntity voter, ElectionEntity election) {
         this.voterKey = voterKey;
         this.voter = voter;
-        this.electionEntity = electionEntity;
+        this.election = election;
     }
 
     public VoteAuthorizationEntity() {
@@ -46,11 +48,15 @@ public class VoteAuthorizationEntity {
         this.voter = voter;
     }
 
-    public ElectionEntity getElectionEntity() {
-        return electionEntity;
+    public ElectionEntity getElection() {
+        return election;
     }
 
-    public void setElectionEntity(ElectionEntity electionEntity) {
-        this.electionEntity = electionEntity;
+    public void setElection(ElectionEntity election) {
+        this.election = election;
+    }
+
+    public VoteAuthorizationResponse toVoteAuthorizationResponse() {
+        return new VoteAuthorizationResponse(voter.getUsername(), election.getElectionId(), voterKey);
     }
 }

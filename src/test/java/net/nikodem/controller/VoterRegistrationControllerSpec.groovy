@@ -5,7 +5,7 @@ import net.nikodem.model.exception.voter.EmptyPasswordException
 import net.nikodem.model.exception.voter.EmptyUsernameException
 import net.nikodem.model.exception.voter.RepeatedPasswordDoesNotMatchException
 import net.nikodem.model.exception.voter.UsernameAlreadyExistsException
-import net.nikodem.model.json.VoterRegistration
+import net.nikodem.model.json.VoterRegistrationRequest
 import net.nikodem.service.VoterRegistrationService
 import org.mockito.InjectMocks
 import org.mockito.Mock
@@ -37,7 +37,7 @@ class VoterRegistrationControllerSpec extends Specification {
     @InjectMocks
     VoterRegistrationController voterRegistrationController
 
-    VoterRegistration mockVoterRegistration = new VoterRegistration("Not", "important", "here");
+    VoterRegistrationRequest mockVoterRegistration = new VoterRegistrationRequest("Not", "important", "here");
 
 
     def setup() {

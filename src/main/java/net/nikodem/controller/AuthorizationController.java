@@ -1,10 +1,10 @@
 package net.nikodem.controller;
 
 import net.nikodem.model.exception.NikodemocracyRequestException;
-import net.nikodem.model.exception.election.ElectionCreationException;
-import net.nikodem.model.json.ElectionCreationRequest;
-import net.nikodem.model.json.ErrorMessage;
-import net.nikodem.service.ElectionCreationService;
+import net.nikodem.model.json.AbstractResponse;
+import net.nikodem.model.json.VoteAuthorizationRequest;
+import net.nikodem.model.json.VoteAuthorizationResponse;
+import net.nikodem.service.VoteAuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,19 +17,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author Peter Nikodem
  */
 @Controller
-public class ElectionCreationController {
+public class AuthorizationController {
 
     @Autowired
-    private ElectionCreationService electionCreationService;
+    private VoteAuthorizationService voteAuthorizationService;
 
-    @RequestMapping(value ="/elections",method = RequestMethod.POST)
-    public ResponseEntity<ErrorMessage> createElection(@RequestBody ElectionCreationRequest electionCreationRequest){
+    @RequestMapping(value="/authorizations",method = RequestMethod.POST)
+    public ResponseEntity<AbstractResponse> retrieveAuthorization(@RequestBody VoteAuthorizationRequest request){
         try {
-            electionCreationService.createElection(electionCreationRequest);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            VoteAuthorizationResponse authorizationResponse = voteAuthorizationService.authorize(request);
+            return new ResponseEntity<>(authorizationResponse, HttpStatus.OK);
         } catch (NikodemocracyRequestException ex){
             return new ResponseEntity<>(ex.getErrorMessageJson(), HttpStatus.BAD_REQUEST);
         }
     }
+
 
 }

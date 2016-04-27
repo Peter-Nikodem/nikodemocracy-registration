@@ -2,11 +2,11 @@ package net.nikodem.dbIntegration
 
 import net.nikodem.NikodemocracyRegistrationApplication
 import net.nikodem.model.json.ElectionCreationRequest
+import net.nikodem.model.json.VoteAuthorizationRequest
 import net.nikodem.model.json.VoterRegistrationRequest
-import net.nikodem.repository.AnswerRepository
-import net.nikodem.repository.ElectionRepository
 import net.nikodem.repository.VoteAuthorizationRepository
 import net.nikodem.service.ElectionCreationService
+import net.nikodem.service.VoteAuthorizationService
 import net.nikodem.service.VoterRegistrationService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.SpringApplicationContextLoader
@@ -19,43 +19,38 @@ import spock.lang.Specification
  * @author Peter Nikodem 
  */
 @ContextConfiguration(loader = SpringApplicationContextLoader, classes = NikodemocracyRegistrationApplication.class)
-class CreateElectionUseCaseSpec extends Specification {
+class VoteAuthorizationUseCaseSpec extends Specification {
 
     VoterRegistrationRequest neosRegistration = new VoterRegistrationRequest('Neo', 'Password', 'Password')
     VoterRegistrationRequest trinitysRegistration = new VoterRegistrationRequest('Trinity', 'Password', 'Password')
     VoterRegistrationRequest cyphersRegistration = new VoterRegistrationRequest('Cypher', 'Password', 'Password')
 
-    ElectionCreationRequest matrixOne = new ElectionCreationRequest("This is your last chance. After this, there's no turning back.",
-            "You take the blue pill, the story ends; you wake up in your bed and believe whatever you want to believe. " +
-                    "You take the red pill, you stay in Wonderland and I'll show you how deep the rabbit hole goes",
+    ElectionCreationRequest matrixOne = new ElectionCreationRequest("ElectionId",
+            "Question",
             ["Blue pill", "Red pill"],
             ["Neo", "Trinity", "Cypher"]
     )
-
 
     @Autowired
     VoterRegistrationService voterRegistrationService
     @Autowired
     ElectionCreationService electionCreationService
     @Autowired
-    ElectionRepository electionRepository
+    VoteAuthorizationService voteAuthorizationService
+
     @Autowired
-    AnswerRepository answerRepository
-    @Autowired
-    VoteAuthorizationRepository voteAuthorizationRepository
+    VoteAuthorizationRepository repository
 
     @Transactional
     @Rollback
-    def "User creates an election"() {
+    def "Voter retrieves his voterKey"(){
         when:
         voterRegistrationService.registerVoter(neosRegistration)
         voterRegistrationService.registerVoter(trinitysRegistration)
         voterRegistrationService.registerVoter(cyphersRegistration)
         electionCreationService.createElection(matrixOne)
+        def response = voteAuthorizationService.authorize(new VoteAuthorizationRequest('Neo','Password','ElectionId'))
         then:
-        answerRepository.count() == 2
-        voteAuthorizationRepository.count() == 3
-        electionRepository.count() == 1
+        response.voterKey.length() == 16
     }
-
 }

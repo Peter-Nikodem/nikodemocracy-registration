@@ -1,7 +1,7 @@
 package net.nikodem.service.validation
 
-import net.nikodem.model.exception.election.DuplicateAnswersException
-import net.nikodem.model.exception.election.DuplicateVotersException
+import net.nikodem.model.exception.election.DuplicatedAnswersException
+import net.nikodem.model.exception.election.DuplicatedVotersException
 import net.nikodem.model.exception.election.EmptyElectionIdException
 import net.nikodem.model.exception.election.EmptyQuestionException
 import net.nikodem.model.exception.election.NotEnoughAnswersException
@@ -78,10 +78,10 @@ class ElectionValidatorSpec extends Specification {
         validator.validate(request)
         then:
         0 * voterRepositoryMock.existsByUsername(_)
-        thrown(DuplicateAnswersException)
+        thrown(DuplicatedAnswersException)
         where:
         request << [
-                new ElectionCreationRequest("01", " ", ["a", "a", "b"], [" ", " "])
+                new ElectionCreationRequest("01", " ", ["a", "a", "b"], [" ", " "," a "])
         ]
     }
 
@@ -90,7 +90,7 @@ class ElectionValidatorSpec extends Specification {
         validator.validate(request)
         then:
         0 * voterRepositoryMock.existsByUsername(_)
-        thrown(DuplicateVotersException)
+        thrown(DuplicatedVotersException)
         where:
         request << [
                 new ElectionCreationRequest("01", " ", ["a", "b"], ["Alice", "Bob", "Alice"])
