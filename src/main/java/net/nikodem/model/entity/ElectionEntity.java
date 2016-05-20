@@ -7,9 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-/**
- * @author Peter Nikodem
- */
 @Entity(name = "Election")
 public class ElectionEntity {
     @Id

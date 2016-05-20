@@ -1,6 +1,6 @@
 package net.nikodem.model.exception;
 
-public class ElectionTransferFailedException extends NikodemocracyServerException {
+public final class ElectionTransferFailedException extends NikodemocracyServerException {
 
     @Override
     protected String getSpecifiedErrorMessage() {

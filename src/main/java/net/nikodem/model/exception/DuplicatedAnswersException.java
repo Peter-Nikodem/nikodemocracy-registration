@@ -3,7 +3,8 @@ package net.nikodem.model.exception;
 import java.util.Collections;
 import java.util.Set;
 
-public class DuplicatedAnswersException extends NikodemocracyRequestException {
+public final class DuplicatedAnswersException extends NikodemocracyRequestException {
+
     private final Set<String> duplicatedAnswers;
 
     public DuplicatedAnswersException(Set<String> duplicatedAnswers) {

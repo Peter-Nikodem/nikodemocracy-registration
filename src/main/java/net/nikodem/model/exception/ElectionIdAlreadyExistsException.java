@@ -1,6 +1,6 @@
 package net.nikodem.model.exception;
 
-public class ElectionIdAlreadyExistsException extends NikodemocracyRequestException {
+public final class ElectionIdAlreadyExistsException extends NikodemocracyRequestException {
 
     @Override
     protected String getSpecifiedErrorMessage() {

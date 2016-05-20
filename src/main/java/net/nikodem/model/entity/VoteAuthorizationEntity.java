@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 /**
  * @TODO rename to permission
- * @author Peter Nikodem
  */
 @Entity(name = "VoteAuthorization")
 public class VoteAuthorizationEntity {

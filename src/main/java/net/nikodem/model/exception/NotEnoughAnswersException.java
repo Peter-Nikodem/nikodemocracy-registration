@@ -1,6 +1,6 @@
 package net.nikodem.model.exception;
 
-public class NotEnoughAnswersException extends NikodemocracyRequestException {
+public final class NotEnoughAnswersException extends NikodemocracyRequestException {
 
     @Override
     protected String getSpecifiedErrorMessage() {

@@ -14,7 +14,7 @@ public class AnswerService {
 
     private AnswerRepository answerRepository;
 
-    public void saveAnswers(ElectionEntity election, List<String> possibleAnswers) {
+    protected void saveAnswers(ElectionEntity election, List<String> possibleAnswers) {
         List<AnswerEntity> answerEntities = new ArrayList<>();
         for (int order = 0; order < possibleAnswers.size(); order++) {
             String answerText = possibleAnswers.get(order);

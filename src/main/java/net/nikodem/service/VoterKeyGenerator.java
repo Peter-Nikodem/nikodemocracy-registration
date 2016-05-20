@@ -9,14 +9,16 @@ import java.util.stream.IntStream;
  * <p>
  * Not thread-safe.
  *
- * @link http//www.stackoverflow.com/questions/7111651/how-to-generate-a-secure-random-alphanumeric-string-in-java-efficiently
+ * @link http//www.stackoverflow.com/questions/7111651/how-to-generate-a-secure-random-alphanumeric-string-in-java
+ * -efficiently
  */
 public class VoterKeyGenerator {
+
     private static final int VOTER_KEY_LENGTH = 16;
-    private static final char[] ALPHANUMERIC_CHARACTERS =
-            "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456879".toCharArray();
+    private static final char[] ALPHANUMERIC_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456879".toCharArray();
     private static final int NUMBER_OF_ALPHANUMERIC_CHARACTERS = ALPHANUMERIC_CHARACTERS.length;
-    private static final float NUMBER_ENTROPY_BITS_NEEDED_FOR_ONE_RANDOM_ALPHANUMERIC_CHARACTER = (float) Math.log(NUMBER_OF_ALPHANUMERIC_CHARACTERS);
+    private static final float NUMBER_ENTROPY_BITS_NEEDED_FOR_ONE_RANDOM_ALPHANUMERIC_CHARACTER = (float) Math.log
+            (NUMBER_OF_ALPHANUMERIC_CHARACTERS);
     private static final float NUMBER_OF_ENTROPY_BITS_GENERATED_BY_SECURE_NEXT_LONG = 64;
 
     private SecureRandom secureRandom = new SecureRandom();

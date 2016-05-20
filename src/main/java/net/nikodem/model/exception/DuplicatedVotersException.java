@@ -3,7 +3,8 @@ package net.nikodem.model.exception;
 import java.util.Collections;
 import java.util.Set;
 
-public class DuplicatedVotersException extends NikodemocracyRequestException {
+public final class DuplicatedVotersException extends NikodemocracyRequestException {
+
     private final Set<String> duplicatedVoters;
 
     public DuplicatedVotersException(Set<String> duplicatedVoters) {

@@ -1,6 +1,7 @@
 package net.nikodem.model.json;
 
 public class VoteAuthorizationRequest {
+
     private String username;
     private String password;
     private String electionId;

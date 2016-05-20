@@ -2,7 +2,7 @@ package net.nikodem.model.entity;
 
 import javax.persistence.*;
 
-@Entity
+@Entity(name="Answer")
 public class AnswerEntity {
     @Id
     @GeneratedValue

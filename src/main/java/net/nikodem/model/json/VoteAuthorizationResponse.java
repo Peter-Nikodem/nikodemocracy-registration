@@ -1,6 +1,7 @@
 package net.nikodem.model.json;
 
 public class VoteAuthorizationResponse extends AbstractResponse {
+
     private String username;
     private String electionId;
     private String voterKey;

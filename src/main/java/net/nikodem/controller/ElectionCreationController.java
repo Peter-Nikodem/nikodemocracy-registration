@@ -29,5 +29,4 @@ public class ElectionCreationController {
             return new ResponseEntity<ErrorMessage>(serverException.getErrorMessageJson(),HttpStatus.SERVICE_UNAVAILABLE);
         }
     }
-
 }

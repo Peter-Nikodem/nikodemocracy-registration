@@ -1,6 +1,7 @@
 package net.nikodem.model.json;
 
-public class ErrorMessage extends AbstractResponse{
+public class ErrorMessage extends AbstractResponse {
+
     private String errorMessage;
 
     public ErrorMessage(String errorMessage) {

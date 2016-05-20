@@ -7,12 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-/**
- * @author Peter Nikodem
- */
 @Entity(name = "Voter")
 public class VoterEntity {
-
 
     @Id
     @GeneratedValue
@@ -23,10 +19,6 @@ public class VoterEntity {
 
     @Column
     private String password;
-
-    public static VoterEntity createFromDto(VoterRegistrationRequest voterRegistrationRequest) {
-        return new VoterEntity(voterRegistrationRequest.getUsername(), voterRegistrationRequest.getPassword());
-    }
 
     public VoterEntity() {
     }

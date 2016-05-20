@@ -31,7 +31,6 @@ public class ElectionTransferringService {
     }
 
     private HttpStatus transferElectionDetails(ElectionInformation electionInfo) {
-        System.out.println(tabulationAuthorityUrl);
         return restTemplate.postForEntity(tabulationAuthorityUrl + "/elections", electionInfo, String.class)
                 .getStatusCode();
     }

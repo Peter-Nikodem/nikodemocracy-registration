@@ -2,7 +2,7 @@ package net.nikodem.model.exception;
 
 import java.util.Set;
 
-public class VoterDoesNotExistException extends NikodemocracyRequestException {
+public final class VoterDoesNotExistException extends NikodemocracyRequestException {
 
     private final Set<String> invalidUserNames;
 

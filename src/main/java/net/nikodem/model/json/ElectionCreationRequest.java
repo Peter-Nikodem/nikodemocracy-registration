@@ -3,6 +3,7 @@ package net.nikodem.model.json;
 import java.util.List;
 
 public class ElectionCreationRequest {
+
     private String electionId;
     private String question;
     private List<String> answers;
@@ -11,7 +12,8 @@ public class ElectionCreationRequest {
     public ElectionCreationRequest() {
     }
 
-    public ElectionCreationRequest(String electionId, String question, List<String> answers, List<String> invitedVoters) {
+    public ElectionCreationRequest(String electionId, String question, List<String> answers, List<String>
+            invitedVoters) {
         this.electionId = electionId;
         this.question = question;
         this.answers = answers;
