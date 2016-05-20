@@ -1,8 +1,5 @@
 package net.nikodem.model.json;
 
-/**
- * @author Peter Nikodem
- */
 public class VoteAuthorizationResponse extends AbstractResponse {
     private String username;
     private String electionId;

@@ -1,8 +1,5 @@
 package net.nikodem.model.json;
 
-/**
- * @author Peter Nikodem
- */
 public class VoteAuthorizationRequest {
     private String username;
     private String password;

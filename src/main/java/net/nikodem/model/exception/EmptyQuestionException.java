@@ -1,10 +1,5 @@
-package net.nikodem.model.exception.election;
+package net.nikodem.model.exception;
 
-import net.nikodem.model.exception.NikodemocracyRequestException;
-
-/**
- * @author Peter Nikodem
- */
 public class EmptyQuestionException extends NikodemocracyRequestException {
     @Override
     protected String getSpecifiedErrorMessage() {

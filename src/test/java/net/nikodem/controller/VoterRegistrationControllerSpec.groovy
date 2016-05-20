@@ -1,10 +1,10 @@
 package net.nikodem.controller
 
 import net.nikodem.TestUtils
-import net.nikodem.model.exception.voter.EmptyPasswordException
-import net.nikodem.model.exception.voter.EmptyUsernameException
-import net.nikodem.model.exception.voter.RepeatedPasswordDoesNotMatchException
-import net.nikodem.model.exception.voter.UsernameAlreadyExistsException
+import net.nikodem.model.exception.EmptyPasswordException
+import net.nikodem.model.exception.EmptyUsernameException
+import net.nikodem.model.exception.RepeatedPasswordDoesNotMatchException
+import net.nikodem.model.exception.UsernameAlreadyExistsException
 import net.nikodem.model.json.VoterRegistrationRequest
 import net.nikodem.service.VoterRegistrationService
 import org.mockito.InjectMocks
@@ -24,9 +24,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-/**
- * @author Peter Nikodem 
- */
 class VoterRegistrationControllerSpec extends Specification {
 
     MockMvc mockMvc;

@@ -1,21 +1,18 @@
 package net.nikodem.service
 
-import net.nikodem.model.exception.election.DuplicatedAnswersException
-import net.nikodem.model.exception.election.DuplicatedVotersException
-import net.nikodem.model.exception.election.EmptyElectionIdException
-import net.nikodem.model.exception.election.EmptyQuestionException
-import net.nikodem.model.exception.election.NotEnoughAnswersException
-import net.nikodem.model.exception.election.NotEnoughVotersException
-import net.nikodem.model.exception.election.VoterDoesNotExistException
+import net.nikodem.model.exception.DuplicatedAnswersException
+import net.nikodem.model.exception.DuplicatedVotersException
+import net.nikodem.model.exception.EmptyElectionIdException
+import net.nikodem.model.exception.EmptyQuestionException
+import net.nikodem.model.exception.NotEnoughAnswersException
+import net.nikodem.model.exception.NotEnoughVotersException
+import net.nikodem.model.exception.VoterDoesNotExistException
 import net.nikodem.model.json.ElectionCreationRequest
 import net.nikodem.repository.ElectionRepository
 import net.nikodem.repository.VoterRepository
 import net.nikodem.service.validation.ElectionValidator
 import spock.lang.Specification
 
-/**
- * @author Peter Nikodem 
- */
 class ElectionCreationServiceSpec extends Specification {
     ElectionCreationService electionCreationService
     ElectionValidator electionValidator
@@ -24,12 +21,14 @@ class ElectionCreationServiceSpec extends Specification {
     VoteAuthorizationService voteAuthorizationServiceMock
     ElectionRepository electionRepositoryMock
     VoterRepository voterRepositoryMock
+    ElectionTransferringService electionTransferringServiceMock
 
     def setup() {
         electionRepositoryMock = Mock(ElectionRepository)
         answerServiceMock = Mock(AnswerService)
         voteAuthorizationServiceMock = Mock(VoteAuthorizationService)
         voterRepositoryMock = Mock(VoterRepository)
+        electionTransferringServiceMock = Mock(ElectionTransferringService)
         electionValidator = new ElectionValidator()
         electionValidator.setVoterRepository(voterRepositoryMock)
         electionCreationService = new ElectionCreationService()
@@ -37,6 +36,7 @@ class ElectionCreationServiceSpec extends Specification {
         electionCreationService.setElectionValidator(electionValidator)
         electionCreationService.setAnswerService(answerServiceMock)
         electionCreationService.setVoteAuthorizationService(voteAuthorizationServiceMock)
+        electionCreationService.setElectionTransferringService(electionTransferringServiceMock)
     }
 
     def "Creating election with empty electionID throws exception"(){
@@ -127,13 +127,4 @@ class ElectionCreationServiceSpec extends Specification {
         0 * answerServiceMock._(_)
         0 * voteAuthorizationServiceMock._(_)
     }
-
-
-
-
-
-
-
-
-
 }

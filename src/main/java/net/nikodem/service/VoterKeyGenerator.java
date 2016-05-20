@@ -9,7 +9,6 @@ import java.util.stream.IntStream;
  * <p>
  * Not thread-safe.
  *
- * @author Peter Nikodem
  * @link http//www.stackoverflow.com/questions/7111651/how-to-generate-a-secure-random-alphanumeric-string-in-java-efficiently
  */
 public class VoterKeyGenerator {

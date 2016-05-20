@@ -5,6 +5,7 @@ import net.nikodem.model.json.VoteAuthorizationResponse;
 import javax.persistence.*;
 
 /**
+ * @TODO rename to permission
  * @author Peter Nikodem
  */
 @Entity(name = "VoteAuthorization")

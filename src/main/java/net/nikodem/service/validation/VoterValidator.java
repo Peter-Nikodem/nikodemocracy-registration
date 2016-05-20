@@ -1,9 +1,9 @@
 package net.nikodem.service.validation;
 
-import net.nikodem.model.exception.voter.EmptyPasswordException;
-import net.nikodem.model.exception.voter.EmptyUsernameException;
-import net.nikodem.model.exception.voter.RepeatedPasswordDoesNotMatchException;
-import net.nikodem.model.exception.voter.UsernameAlreadyExistsException;
+import net.nikodem.model.exception.EmptyPasswordException;
+import net.nikodem.model.exception.EmptyUsernameException;
+import net.nikodem.model.exception.RepeatedPasswordDoesNotMatchException;
+import net.nikodem.model.exception.UsernameAlreadyExistsException;
 import net.nikodem.model.json.VoterRegistrationRequest;
 import net.nikodem.repository.VoterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,16 +11,13 @@ import org.springframework.stereotype.Component;
 
 import static net.nikodem.util.ValidationPreconditions.isNullOrEmpty;
 
-/**
- * @author Peter Nikodem
- */
 @Component
 public class VoterValidator {
 
     private VoterRepository voterRepository;
 
-    public void validate(VoterRegistrationRequest voterRegistrationRequest) throws
-            EmptyUsernameException, EmptyPasswordException, RepeatedPasswordDoesNotMatchException {
+    public void validate(VoterRegistrationRequest voterRegistrationRequest)
+            throws EmptyUsernameException, EmptyPasswordException, RepeatedPasswordDoesNotMatchException {
         String username = voterRegistrationRequest.getUsername();
         String password = voterRegistrationRequest.getPassword();
         String repeatedPassword = voterRegistrationRequest.getRepeatedPassword();
@@ -37,7 +34,6 @@ public class VoterValidator {
         if (usernameAlreadyExists(username)) {
             throw new UsernameAlreadyExistsException();
         }
-
     }
 
     private boolean usernameAlreadyExists(String username) {

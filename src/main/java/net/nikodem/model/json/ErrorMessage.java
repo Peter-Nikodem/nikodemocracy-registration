@@ -1,8 +1,5 @@
 package net.nikodem.model.json;
 
-/**
- * @author Peter Nikodem
- */
 public class ErrorMessage extends AbstractResponse{
     private String errorMessage;
 

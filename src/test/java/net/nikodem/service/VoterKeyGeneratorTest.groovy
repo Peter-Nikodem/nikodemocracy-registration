@@ -3,17 +3,16 @@ package net.nikodem.service
 import spock.lang.Ignore
 import spock.lang.Specification
 
-/**
- * @author Peter Nikodem 
- */
 class VoterKeyGeneratorTest extends Specification {
 
     def 'Generated voter key has 16 alphanumeric characters'() {
         when:
         def generator = new VoterKeyGenerator()
+        def sizeOfFirstKey = generator.generateNextRandomVoterKey().size()
+        def sizeOfSecondKey = generator.generateNextRandomVoterKey().size()
         then:
-        generator.generateNextRandomVoterKey().size() == 16
-        generator.generateNextRandomVoterKey().size() == 16
+        sizeOfFirstKey == 16
+        sizeOfSecondKey == 16
     }
 
     @Ignore

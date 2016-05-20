@@ -1,19 +1,16 @@
 package net.nikodem.service
 
 
-import net.nikodem.model.exception.voter.EmptyPasswordException
-import net.nikodem.model.exception.voter.EmptyUsernameException
-import net.nikodem.model.exception.voter.RepeatedPasswordDoesNotMatchException
-import net.nikodem.model.exception.voter.UsernameAlreadyExistsException
+import net.nikodem.model.exception.EmptyPasswordException
+import net.nikodem.model.exception.EmptyUsernameException
+import net.nikodem.model.exception.RepeatedPasswordDoesNotMatchException
+import net.nikodem.model.exception.UsernameAlreadyExistsException
 import net.nikodem.model.json.VoterRegistrationRequest
 import net.nikodem.repository.VoterRepository
 import net.nikodem.service.validation.VoterValidator
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import spock.lang.Specification
 
-/**
- * @author Peter Nikodem 
- */
 class VoterRegistrationServiceSpec extends Specification {
     VoterRegistrationService registrationService
     VoterRepository voterRepositoryMock

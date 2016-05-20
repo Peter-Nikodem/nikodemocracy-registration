@@ -2,9 +2,6 @@ package net.nikodem.model.json;
 
 import java.util.List;
 
-/**
- * @author Peter Nikodem
- */
 public class ElectionCreationRequest {
     private String electionId;
     private String question;

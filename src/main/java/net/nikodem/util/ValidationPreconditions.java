@@ -2,9 +2,6 @@ package net.nikodem.util;
 
 import java.util.*;
 
-/**
- * @author Peter Nikodem
- */
 public class ValidationPreconditions {
 
     public static boolean isNullOrEmpty(String s) {

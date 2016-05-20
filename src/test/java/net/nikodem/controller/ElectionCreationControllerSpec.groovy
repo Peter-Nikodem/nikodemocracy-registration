@@ -1,18 +1,20 @@
 package net.nikodem.controller
 
 import net.nikodem.TestUtils
-import net.nikodem.model.exception.election.ElectionIdAlreadyExistsException
-import net.nikodem.model.exception.election.EmptyElectionIdException
-import net.nikodem.model.exception.election.EmptyQuestionException
-import net.nikodem.model.exception.election.NotEnoughAnswersException
-import net.nikodem.model.exception.election.NotEnoughVotersException
-import net.nikodem.model.exception.election.VoterDoesNotExistException
+import net.nikodem.model.exception.ElectionIdAlreadyExistsException
+import net.nikodem.model.exception.ElectionTransferFailedException
+import net.nikodem.model.exception.EmptyElectionIdException
+import net.nikodem.model.exception.EmptyQuestionException
+import net.nikodem.model.exception.NotEnoughAnswersException
+import net.nikodem.model.exception.NotEnoughVotersException
+import net.nikodem.model.exception.VoterDoesNotExistException
 import net.nikodem.model.json.ElectionCreationRequest
 import net.nikodem.service.ElectionCreationService
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.ResultActions
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import spock.lang.Specification
 
@@ -49,10 +51,8 @@ class ElectionCreationControllerSpec extends Specification {
         when:
         doNothing().when(electionCreationServiceMock).createElection(any())
         then:
-        mockMvc.perform(post("/elections")
-                .contentType(TestUtils.APPLICATION_JSON_UTF8)
-                .content(TestUtils.convertObjectToJsonBytes(mockElectionCreation))
-        ).andExpect(status().isCreated());
+        performElectionCreationRequest()
+                .andExpect(status().isCreated());
     }
 
     def "Creating election when electionId already exists should return error"() {
@@ -83,11 +83,11 @@ class ElectionCreationControllerSpec extends Specification {
         performBadElectionCreationRequestAndVerifyThatReturnedErrorMessageIs('There must be at least two possible answers.')
     }
 
-    def "Creating election when there aren't at least two voters should return error"() {
+    def "Creating election when there aren't at least three voters should return error"() {
         when:
         doThrow(NotEnoughVotersException).when(electionCreationServiceMock).createElection(any())
         then:
-        performBadElectionCreationRequestAndVerifyThatReturnedErrorMessageIs('There must be at least two invited voters.')
+        performBadElectionCreationRequestAndVerifyThatReturnedErrorMessageIs('There must be at least three invited voters.')
 
     }
 
@@ -98,15 +98,31 @@ class ElectionCreationControllerSpec extends Specification {
         performBadElectionCreationRequestAndVerifyThatReturnedErrorMessageIs('Voters with usernames [Link] not found.')
     }
 
+    def "Failure to transfer created election details to Tabulation Authority returns error"() {
+        when:
+        doThrow(new ElectionTransferFailedException()).when(electionCreationServiceMock).createElection(any())
+        then:
+        performElectionCreationRequest()
+                .andExpect(status().is5xxServerError())
+                .andExpect(content().contentType(TestUtils.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath('$', notNullValue()))
+                .andExpect(jsonPath('$.errorMessage', is("Could not transfer the election details to the tabulation authority. Sorry!")));
+    }
+
+
     def performBadElectionCreationRequestAndVerifyThatReturnedErrorMessageIs(String errorMessage) {
-        mockMvc.perform(post("/elections")
-                .contentType(TestUtils.APPLICATION_JSON_UTF8)
-                .content(TestUtils.convertObjectToJsonBytes(mockElectionCreation))
-        )
+        performElectionCreationRequest()
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(TestUtils.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath('$', notNullValue()))
                 .andExpect(jsonPath('$.errorMessage', is(errorMessage)));
+    }
+
+    private ResultActions performElectionCreationRequest() {
+        mockMvc.perform(post("/elections")
+                .contentType(TestUtils.APPLICATION_JSON_UTF8)
+                .content(TestUtils.convertObjectToJsonBytes(mockElectionCreation))
+        )
     }
 
 }

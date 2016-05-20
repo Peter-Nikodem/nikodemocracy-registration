@@ -1,13 +1,8 @@
-package net.nikodem.model.exception.election;
-
-import net.nikodem.model.exception.NikodemocracyRequestException;
+package net.nikodem.model.exception;
 
 import java.util.Collections;
 import java.util.Set;
 
-/**
- * @author Peter Nikodem
- */
 public class DuplicatedAnswersException extends NikodemocracyRequestException {
     private final Set<String> duplicatedAnswers;
 

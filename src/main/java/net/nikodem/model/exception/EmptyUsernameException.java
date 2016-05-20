@@ -1,10 +1,5 @@
-package net.nikodem.model.exception.voter;
+package net.nikodem.model.exception;
 
-import net.nikodem.model.exception.NikodemocracyRequestException;
-
-/**
- * @author Peter Nikodem
- */
 public final class EmptyUsernameException extends NikodemocracyRequestException {
 
     @Override

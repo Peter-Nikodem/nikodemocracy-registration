@@ -2,9 +2,6 @@ package net.nikodem.model.entity;
 
 import javax.persistence.*;
 
-/**
- * @author Peter Nikodem
- */
 @Entity
 public class AnswerEntity {
     @Id
@@ -20,13 +17,13 @@ public class AnswerEntity {
     @ManyToOne
     private ElectionEntity election;
 
-    public AnswerEntity() {
-    }
-
     public AnswerEntity(String answerText, int order, ElectionEntity election) {
         this.answerText = answerText;
         this.answerOrder = order;
         this.election = election;
+    }
+
+    public AnswerEntity() {
     }
 
     public String getAnswerText() {

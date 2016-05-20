@@ -1,10 +1,5 @@
 package net.nikodem.model.json;
 
-import javax.validation.constraints.NotNull;
-
-/**
- * @author Peter Nikodem
- */
 public class VoterRegistrationRequest {
 
     private String username;

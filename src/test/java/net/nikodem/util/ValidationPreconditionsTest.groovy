@@ -4,12 +4,9 @@ import spock.lang.Specification
 
 import javax.validation.Validation
 
-/**
- * @author Peter Nikodem 
- */
 class ValidationPreconditionsTest extends Specification {
 
-    def "isNullOrEmpty returns true if string is nully or empty"() { //thanks, Magic
+    def "isNullOrEmpty returns true if string is null or empty"() { //thanks, Magic
         expect:
         ValidationPreconditions.isNullOrEmpty(string) == result
         where:

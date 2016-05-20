@@ -1,7 +1,6 @@
 package net.nikodem.controller;
 
-import net.nikodem.model.exception.NikodemocracyRequestException;
-import net.nikodem.model.exception.election.ElectionCreationException;
+import net.nikodem.model.exception.*;
 import net.nikodem.model.json.ElectionCreationRequest;
 import net.nikodem.model.json.ErrorMessage;
 import net.nikodem.service.ElectionCreationService;
@@ -13,9 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-/**
- * @author Peter Nikodem
- */
 @Controller
 public class ElectionCreationController {
 
@@ -27,8 +23,10 @@ public class ElectionCreationController {
         try {
             electionCreationService.createElection(electionCreationRequest);
             return new ResponseEntity<>(HttpStatus.CREATED);
-        } catch (NikodemocracyRequestException ex){
-            return new ResponseEntity<>(ex.getErrorMessageJson(), HttpStatus.BAD_REQUEST);
+        } catch (NikodemocracyRequestException requestException){
+            return new ResponseEntity<>(requestException.getErrorMessageJson(), HttpStatus.BAD_REQUEST);
+        } catch (NikodemocracyServerException serverException){
+            return new ResponseEntity<ErrorMessage>(serverException.getErrorMessageJson(),HttpStatus.SERVICE_UNAVAILABLE);
         }
     }
 

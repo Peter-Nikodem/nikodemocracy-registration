@@ -1,19 +1,16 @@
 package net.nikodem.service.validation
 
-import net.nikodem.model.exception.election.DuplicatedAnswersException
-import net.nikodem.model.exception.election.DuplicatedVotersException
-import net.nikodem.model.exception.election.EmptyElectionIdException
-import net.nikodem.model.exception.election.EmptyQuestionException
-import net.nikodem.model.exception.election.NotEnoughAnswersException
-import net.nikodem.model.exception.election.NotEnoughVotersException
-import net.nikodem.model.exception.election.VoterDoesNotExistException
+import net.nikodem.model.exception.DuplicatedAnswersException
+import net.nikodem.model.exception.DuplicatedVotersException
+import net.nikodem.model.exception.EmptyElectionIdException
+import net.nikodem.model.exception.EmptyQuestionException
+import net.nikodem.model.exception.NotEnoughAnswersException
+import net.nikodem.model.exception.NotEnoughVotersException
+import net.nikodem.model.exception.VoterDoesNotExistException
 import net.nikodem.model.json.ElectionCreationRequest
 import net.nikodem.repository.VoterRepository
 import spock.lang.Specification
 
-/**
- * @author Peter Nikodem 
- */
 class ElectionValidatorSpec extends Specification {
     ElectionValidator validator
     VoterRepository voterRepositoryMock

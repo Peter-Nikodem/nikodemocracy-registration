@@ -7,6 +7,7 @@ import net.nikodem.repository.AnswerRepository
 import net.nikodem.repository.ElectionRepository
 import net.nikodem.repository.VoteAuthorizationRepository
 import net.nikodem.service.ElectionCreationService
+import net.nikodem.service.ElectionTransferringService
 import net.nikodem.service.VoterRegistrationService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.SpringApplicationContextLoader
@@ -15,9 +16,6 @@ import org.springframework.test.context.ContextConfiguration
 import org.springframework.transaction.annotation.Transactional
 import spock.lang.Specification
 
-/**
- * @author Peter Nikodem 
- */
 @ContextConfiguration(loader = SpringApplicationContextLoader, classes = NikodemocracyRegistrationApplication.class)
 class CreateElectionUseCaseSpec extends Specification {
 
@@ -44,9 +42,18 @@ class CreateElectionUseCaseSpec extends Specification {
     @Autowired
     VoteAuthorizationRepository voteAuthorizationRepository
 
+    ElectionTransferringService electionTransferringServiceMock
+
+    def setup(){
+        electionTransferringServiceMock = Mock(ElectionTransferringService)
+        electionCreationService.electionTransferringService = electionTransferringServiceMock
+    }
+
     @Transactional
     @Rollback
     def "User creates an election"() {
+        given:
+        1 * electionTransferringServiceMock.postElection(_)
         when:
         voterRegistrationService.registerVoter(neosRegistration)
         voterRegistrationService.registerVoter(trinitysRegistration)

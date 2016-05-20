@@ -1,7 +1,7 @@
 package net.nikodem.dbIntegration
 
 import net.nikodem.NikodemocracyRegistrationApplication
-import net.nikodem.model.exception.voter.UsernameAlreadyExistsException
+import net.nikodem.model.exception.UsernameAlreadyExistsException
 import net.nikodem.model.json.VoterRegistrationRequest
 import net.nikodem.repository.VoterRepository
 import net.nikodem.service.VoterRegistrationService
@@ -12,9 +12,6 @@ import org.springframework.test.context.ContextConfiguration
 import org.springframework.transaction.annotation.Transactional
 import spock.lang.Specification
 
-/**
- * @author Peter Nikodem 
- */
 @ContextConfiguration(loader = SpringApplicationContextLoader, classes = NikodemocracyRegistrationApplication.class)
 class RegisterVoterUseCaseSpec extends Specification {
 

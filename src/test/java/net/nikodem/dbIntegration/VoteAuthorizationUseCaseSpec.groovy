@@ -15,9 +15,6 @@ import org.springframework.test.context.ContextConfiguration
 import org.springframework.transaction.annotation.Transactional
 import spock.lang.Specification
 
-/**
- * @author Peter Nikodem 
- */
 @ContextConfiguration(loader = SpringApplicationContextLoader, classes = NikodemocracyRegistrationApplication.class)
 class VoteAuthorizationUseCaseSpec extends Specification {
 
@@ -37,9 +34,6 @@ class VoteAuthorizationUseCaseSpec extends Specification {
     ElectionCreationService electionCreationService
     @Autowired
     VoteAuthorizationService voteAuthorizationService
-
-    @Autowired
-    VoteAuthorizationRepository repository
 
     @Transactional
     @Rollback

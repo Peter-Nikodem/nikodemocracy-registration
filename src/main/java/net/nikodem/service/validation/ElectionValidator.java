@@ -1,7 +1,6 @@
 package net.nikodem.service.validation;
 
-import net.nikodem.model.exception.NikodemocracyRequestException;
-import net.nikodem.model.exception.election.*;
+import net.nikodem.model.exception.*;
 import net.nikodem.model.json.ElectionCreationRequest;
 import net.nikodem.repository.VoterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +15,6 @@ import static net.nikodem.util.ValidationPreconditions.hasLessThanThreeElements;
 import static net.nikodem.util.ValidationPreconditions.hasLessThanTwoElements;
 import static net.nikodem.util.ValidationPreconditions.isNullOrEmpty;
 
-/**
- * @author Peter Nikodem
- */
 @Component
 public class ElectionValidator {
 
@@ -53,8 +49,12 @@ public class ElectionValidator {
 
     private Set<String> getNonExistingVoters(List<String> invitedVoters) {
         return invitedVoters.stream()
-                .filter(v -> !voterRepository.existsByUsername(v))
+                .filter(this::voterDoesNotExist)
                 .collect(Collectors.toSet());
+    }
+
+    private boolean voterDoesNotExist(String username) {
+        return !voterRepository.existsByUsername(username);
     }
 
     @Autowired

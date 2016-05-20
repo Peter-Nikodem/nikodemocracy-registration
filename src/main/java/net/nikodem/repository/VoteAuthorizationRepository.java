@@ -6,10 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-/**
- * @author Peter Nikodem
- */
-public interface VoteAuthorizationRepository extends JpaRepository<VoteAuthorizationEntity,Long> {
+public interface VoteAuthorizationRepository extends JpaRepository<VoteAuthorizationEntity, Long> {
 
     Optional<VoteAuthorizationEntity> findByVoterUsernameAndElectionElectionId(String username, String electionId);
 

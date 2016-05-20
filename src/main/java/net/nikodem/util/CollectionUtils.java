@@ -2,9 +2,6 @@ package net.nikodem.util;
 
 import java.util.*;
 
-/**
- * @author Peter Nikodem
- */
 public class CollectionUtils {
 
     public static <T extends Comparable<T>> Set<T> getDuplicates(List<T> list) {
