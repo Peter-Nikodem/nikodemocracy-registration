@@ -1,19 +1,16 @@
 package net.nikodem.service.validation;
 
-import net.nikodem.model.entity.VoteAuthorizationEntity;
-import net.nikodem.model.exception.UnauthorizedVoterException;
-import net.nikodem.model.exception.EmptyElectionIdException;
-import net.nikodem.model.exception.EmptyPasswordException;
-import net.nikodem.model.exception.EmptyUsernameException;
-import net.nikodem.model.json.VoteAuthorizationRequest;
-import net.nikodem.repository.VoteAuthorizationRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Component;
+import net.nikodem.model.dto.*;
+import net.nikodem.model.entity.*;
+import net.nikodem.model.exception.*;
+import net.nikodem.repository.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.security.crypto.bcrypt.*;
+import org.springframework.stereotype.*;
 
-import java.util.Optional;
+import java.util.*;
 
-import static net.nikodem.util.ValidationPreconditions.isNullOrEmpty;
+import static net.nikodem.util.ValidationPreconditions.*;
 
 @Component
 public class VoteAuthorizationValidator {
@@ -31,35 +28,36 @@ public class VoteAuthorizationValidator {
         if (isNullOrEmpty(request.getElectionId())) {
             throw new EmptyElectionIdException();
         }
-
-        if (voterOrElectionDoesNotExistOrPasswordIsNotValid(request.getUsername(), request.getPassword(), request
-                .getElectionId())) {
+        if (voterOrElectionDoesNotExistOrPasswordIsNotValid(request.getUsername(), request.getPassword(), request.getElectionId())) {
             throw new UnauthorizedVoterException();
         }
     }
 
-    private boolean voterOrElectionDoesNotExistOrPasswordIsNotValid(String username, String rawEnteredPassword,
-                                                                    String electionId) {
+    private boolean voterOrElectionDoesNotExistOrPasswordIsNotValid(String username, String rawEnteredPassword, String electionId) {
         Optional<VoteAuthorizationEntity> authorization = tryToFindAuthorization(username, electionId);
         if (authorization.isPresent()) {
             String storedEncodedPassword = authorization.get()
                     .getVoter()
                     .getPassword();
-            return passwordIsValid(rawEnteredPassword, storedEncodedPassword);
+            return passwordIsNotValid(rawEnteredPassword, storedEncodedPassword);
         }
-        return false;
+        return true;
     }
 
     private Optional<VoteAuthorizationEntity> tryToFindAuthorization(String username, String electionId) {
         return voteAuthorizationRepository.findByVoterUsernameAndElectionElectionId(username, electionId);
     }
 
-    private boolean passwordIsValid(String storedEncodedPassword, String rawEnteredPassword) {
-        return passwordEncoder.matches(rawEnteredPassword, storedEncodedPassword);
+    private boolean passwordIsNotValid(String rawEnteredPassword, String storedEncodedPassword) {
+        return !passwordEncoder.matches(rawEnteredPassword, storedEncodedPassword);
     }
 
     @Autowired
     public void setVoteAuthorizationRepository(VoteAuthorizationRepository voteAuthorizationRepository) {
         this.voteAuthorizationRepository = voteAuthorizationRepository;
+    }
+
+    protected void setPasswordEncoder(BCryptPasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
     }
 }

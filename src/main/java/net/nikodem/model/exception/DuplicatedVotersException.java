@@ -1,7 +1,6 @@
 package net.nikodem.model.exception;
 
-import java.util.Collections;
-import java.util.Set;
+import java.util.*;
 
 public final class DuplicatedVotersException extends NikodemocracyRequestException {
 

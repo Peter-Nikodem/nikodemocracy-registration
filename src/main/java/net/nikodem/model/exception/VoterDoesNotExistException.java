@@ -1,6 +1,6 @@
 package net.nikodem.model.exception;
 
-import java.util.Set;
+import java.util.*;
 
 public final class VoterDoesNotExistException extends NikodemocracyRequestException {
 

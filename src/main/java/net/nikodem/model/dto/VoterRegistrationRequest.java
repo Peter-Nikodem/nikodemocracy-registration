@@ -1,4 +1,6 @@
-package net.nikodem.model.json;
+package net.nikodem.model.dto;
+
+import java.util.*;
 
 public class VoterRegistrationRequest {
 
@@ -48,5 +50,22 @@ public class VoterRegistrationRequest {
                 ", password='" + password + '\'' +
                 ", repeatedPassword='" + repeatedPassword + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        VoterRegistrationRequest that = (VoterRegistrationRequest) o;
+        return Objects.equals(username, that.username) &&
+                Objects.equals(password, that.password) &&
+                Objects.equals(repeatedPassword, that.repeatedPassword);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username, password, repeatedPassword);
     }
 }

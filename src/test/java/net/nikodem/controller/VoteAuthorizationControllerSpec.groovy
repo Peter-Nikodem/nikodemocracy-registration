@@ -1,13 +1,14 @@
 package net.nikodem.controller
 
 import net.nikodem.TestUtils
-import net.nikodem.model.exception.UnauthorizedVoterException
+import net.nikodem.model.dto.VoteAuthorizationRequest
+import net.nikodem.model.dto.VoteAuthorizationResponse
 import net.nikodem.model.exception.EmptyElectionIdException
 import net.nikodem.model.exception.EmptyPasswordException
 import net.nikodem.model.exception.EmptyUsernameException
-import net.nikodem.model.json.VoteAuthorizationRequest
-import net.nikodem.model.json.VoteAuthorizationResponse
+import net.nikodem.model.exception.UnauthorizedVoterException
 import net.nikodem.service.VoteAuthorizationService
+import net.nikodem.testdata.ExampleElections
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
@@ -15,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import spock.lang.Specification
 
+import static net.nikodem.testdata.ExampleVoter.BOB
 import static org.hamcrest.Matchers.is
 import static org.hamcrest.Matchers.notNullValue
 import static org.mockito.Matchers.any
@@ -22,7 +24,7 @@ import static org.mockito.Mockito.when
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
-class AuthorizationControllerSpec extends Specification {
+class VoteAuthorizationControllerSpec extends Specification {
 
     MockMvc mockMvc
 
@@ -30,9 +32,9 @@ class AuthorizationControllerSpec extends Specification {
     VoteAuthorizationService authorizationServiceMock
 
     @InjectMocks
-    AuthorizationRetrievalController authorizationController
+    VoteAuthorizationRetrievalController authorizationController
 
-    VoteAuthorizationRequest request = new VoteAuthorizationRequest('peter','password','electionId')
+    VoteAuthorizationRequest request = BOB.getVoteAuthorizationRequestFor(ExampleElections.CYCLOPS_CONUNDRUM.electionId)
 
     def setup() {
         MockitoAnnotations.initMocks(this)
@@ -41,7 +43,7 @@ class AuthorizationControllerSpec extends Specification {
 
     def "Retrieving vote authorization with correct information returns authorization with appropriate voter key"() {
         when:
-        when(authorizationServiceMock.authorize(any())).thenReturn(new VoteAuthorizationResponse('Peter','Password','1234567812345678'))
+        when(authorizationServiceMock.authorize(any())).thenReturn(new VoteAuthorizationResponse(BOB.username, BOB.password, '1234567812345678'))
         then:
         mockMvc.perform(post("/authorizations")
                 .contentType(TestUtils.APPLICATION_JSON_UTF8)
@@ -50,8 +52,8 @@ class AuthorizationControllerSpec extends Specification {
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().contentType(TestUtils.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath('$', notNullValue()))
-                .andExpect(jsonPath('$.username', is("Peter")))
-                .andExpect(jsonPath('$.electionId',is("Password")))
+                .andExpect(jsonPath('$.username', is(BOB.username)))
+                .andExpect(jsonPath('$.electionId', is(BOB.password)))
                 .andExpect(jsonPath('$.voterKey', is("1234567812345678")))
     }
 
@@ -93,8 +95,6 @@ class AuthorizationControllerSpec extends Specification {
                 .andExpect(jsonPath('$', notNullValue()))
                 .andExpect(jsonPath('$.errorMessage', is(errorMessage)));
     }
-
-
 
 
 }

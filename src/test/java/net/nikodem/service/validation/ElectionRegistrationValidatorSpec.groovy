@@ -1,23 +1,17 @@
 package net.nikodem.service.validation
 
-import net.nikodem.model.exception.DuplicatedAnswersException
-import net.nikodem.model.exception.DuplicatedVotersException
-import net.nikodem.model.exception.EmptyElectionIdException
-import net.nikodem.model.exception.EmptyQuestionException
-import net.nikodem.model.exception.NotEnoughAnswersException
-import net.nikodem.model.exception.NotEnoughVotersException
-import net.nikodem.model.exception.VoterDoesNotExistException
-import net.nikodem.model.json.ElectionCreationRequest
+import net.nikodem.model.dto.ElectionRegistrationRequest
+import net.nikodem.model.exception.*
 import net.nikodem.repository.VoterRepository
 import spock.lang.Specification
 
-class ElectionValidatorSpec extends Specification {
-    ElectionValidator validator
+class ElectionRegistrationValidatorSpec extends Specification {
+    ElectionRegistrationValidator validator
     VoterRepository voterRepositoryMock
 
     def setup() {
         voterRepositoryMock = Mock(VoterRepository)
-        validator = new ElectionValidator()
+        validator = new ElectionRegistrationValidator()
         validator.setVoterRepository(voterRepositoryMock)
     }
 
@@ -29,8 +23,8 @@ class ElectionValidatorSpec extends Specification {
         thrown(EmptyElectionIdException)
         where:
         request << [
-                new ElectionCreationRequest("", "", [], []),
-                new ElectionCreationRequest(null, "", [], [])
+                new ElectionRegistrationRequest("", "", [], []),
+                new ElectionRegistrationRequest(null, "", [], [])
         ]
     }
 
@@ -42,7 +36,7 @@ class ElectionValidatorSpec extends Specification {
         thrown(EmptyQuestionException)
         where:
         request << [
-                new ElectionCreationRequest("01", "", [], [])
+                new ElectionRegistrationRequest("01", "", [], [])
         ]
     }
 
@@ -54,7 +48,7 @@ class ElectionValidatorSpec extends Specification {
         thrown(NotEnoughAnswersException)
         where:
         request << [
-                new ElectionCreationRequest("01", " ", [" "], [])
+                new ElectionRegistrationRequest("01", " ", [" "], [])
         ]
     }
 
@@ -66,7 +60,7 @@ class ElectionValidatorSpec extends Specification {
         thrown(NotEnoughVotersException)
         where:
         request << [
-                new ElectionCreationRequest("01", " ", [" ", "  "], [" "])
+                new ElectionRegistrationRequest("01", " ", [" ", "  "], [" "])
         ]
     }
 
@@ -78,7 +72,7 @@ class ElectionValidatorSpec extends Specification {
         thrown(DuplicatedAnswersException)
         where:
         request << [
-                new ElectionCreationRequest("01", " ", ["a", "a", "b"], [" ", " "," a "])
+                new ElectionRegistrationRequest("01", " ", ["a", "a", "b"], [" ", " ", " a "])
         ]
     }
 
@@ -90,7 +84,7 @@ class ElectionValidatorSpec extends Specification {
         thrown(DuplicatedVotersException)
         where:
         request << [
-                new ElectionCreationRequest("01", " ", ["a", "b"], ["Alice", "Bob", "Alice"])
+                new ElectionRegistrationRequest("01", " ", ["a", "b"], ["Alice", "Bob", "Alice"])
         ]
     }
 
@@ -103,7 +97,7 @@ class ElectionValidatorSpec extends Specification {
         thrown(VoterDoesNotExistException)
         where:
         request << [
-                new ElectionCreationRequest("01", " ", ["a", "b"], ["Alice", "Bob", "nonexistent"])
+                new ElectionRegistrationRequest("01", " ", ["a", "b"], ["Alice", "Bob", "nonexistent"])
         ]
     }
 
@@ -114,7 +108,7 @@ class ElectionValidatorSpec extends Specification {
         3 * voterRepositoryMock.existsByUsername(_) >> true
         where:
         request << [
-                new ElectionCreationRequest("01", " ", ["a", "b"], ["Alice", "Bob", "Cecil"])
+                new ElectionRegistrationRequest("01", " ", ["a", "b"], ["Alice", "Bob", "Cecil"])
         ]
     }
 

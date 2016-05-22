@@ -1,4 +1,4 @@
-package net.nikodem.service
+package net.nikodem.service.crypto
 
 import spock.lang.Ignore
 import spock.lang.Specification
@@ -16,13 +16,16 @@ class VoterKeyGeneratorTest extends Specification {
     }
 
     @Ignore
-    def "Voter key generation is random enough"(){
-        given:  Set set = new HashSet()
+    def "Voter key generation is random enough"() {
+        given:
+        Set set = new HashSet()
         def N = 500_000
         def generator = new VoterKeyGenerator()
-        when:   N.times {
+        when:
+        N.times {
             set.add(generator.generateNextRandomVoterKey())
         }
-        then:   set.size() == N
+        then:
+        set.size() == N
     }
 }

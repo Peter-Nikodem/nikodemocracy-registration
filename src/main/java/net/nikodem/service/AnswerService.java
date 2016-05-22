@@ -1,13 +1,11 @@
 package net.nikodem.service;
 
-import net.nikodem.model.entity.AnswerEntity;
-import net.nikodem.model.entity.ElectionEntity;
-import net.nikodem.repository.AnswerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import net.nikodem.model.entity.*;
+import net.nikodem.repository.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class AnswerService {

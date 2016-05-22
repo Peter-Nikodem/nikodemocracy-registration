@@ -1,15 +1,10 @@
 package net.nikodem.controller
 
 import net.nikodem.TestUtils
-import net.nikodem.model.exception.ElectionIdAlreadyExistsException
-import net.nikodem.model.exception.ElectionTransferFailedException
-import net.nikodem.model.exception.EmptyElectionIdException
-import net.nikodem.model.exception.EmptyQuestionException
-import net.nikodem.model.exception.NotEnoughAnswersException
-import net.nikodem.model.exception.NotEnoughVotersException
-import net.nikodem.model.exception.VoterDoesNotExistException
-import net.nikodem.model.json.ElectionCreationRequest
-import net.nikodem.service.ElectionCreationService
+import net.nikodem.model.dto.ElectionRegistrationRequest
+import net.nikodem.model.exception.*
+import net.nikodem.service.ElectionRegistrationService
+import net.nikodem.testdata.ExampleElections
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
@@ -24,80 +19,78 @@ import static org.mockito.Matchers.any
 import static org.mockito.Mockito.doNothing
 import static org.mockito.Mockito.doThrow
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
-class ElectionCreationControllerSpec extends Specification {
+class ElectionRegistrationControllerSpec extends Specification {
 
     MockMvc mockMvc
 
     @Mock
-    ElectionCreationService electionCreationServiceMock
+    ElectionRegistrationService electionRegistrationServiceMock
 
     @InjectMocks
-    ElectionCreationController electionCreationController
-    ElectionCreationRequest mockElectionCreation = new ElectionCreationRequest('Choose one, Neo!', 'Red or blue?', ['Red', 'Blue'], ['Neo', 'Trinity', 'Cypher'])
+    ElectionRegistrationController electionRegistrationController
+    ElectionRegistrationRequest mockElectionRegistration = ExampleElections.CYCLOPS_CONUNDRUM
 
     def setup() {
         MockitoAnnotations.initMocks(this)
-        mockMvc = MockMvcBuilders.standaloneSetup(electionCreationController).build()
+        mockMvc = MockMvcBuilders.standaloneSetup(electionRegistrationController).build()
     }
 
-    def "Creating election when details are valid should return HTTP code CREATED"() {
+    def "Registering election when details are valid should return HTTP code CREATED"() {
         when:
-        doNothing().when(electionCreationServiceMock).createElection(any())
+        doNothing().when(electionRegistrationServiceMock).registerElection(any())
         then:
         performElectionCreationRequest()
                 .andExpect(status().isCreated());
     }
 
-    def "Creating election when electionId already exists should return error"() {
+    def "Registering election when electionId already exists should return error"() {
         when:
-        doThrow(ElectionIdAlreadyExistsException).when(electionCreationServiceMock).createElection(any())
+        doThrow(ElectionIdAlreadyExistsException).when(electionRegistrationServiceMock).registerElection(any())
         then:
         performBadElectionCreationRequestAndVerifyThatReturnedErrorMessageIs('Entered electionId already exists.')
     }
 
-    def "Creating election when electionId is empty should return error"() {
+    def "Registering election when electionId is empty should return error"() {
         when:
-        doThrow(EmptyElectionIdException).when(electionCreationServiceMock).createElection(any())
+        doThrow(EmptyElectionIdException).when(electionRegistrationServiceMock).registerElection(any())
         then:
         performBadElectionCreationRequestAndVerifyThatReturnedErrorMessageIs('ElectionId must not be empty.')
     }
 
-    def "Creating election when question is empty should return error"() {
+    def "Registering election when question is empty should return error"() {
         when:
-        doThrow(EmptyQuestionException).when(electionCreationServiceMock).createElection(any())
+        doThrow(EmptyQuestionException).when(electionRegistrationServiceMock).registerElection(any())
         then:
         performBadElectionCreationRequestAndVerifyThatReturnedErrorMessageIs('Question must not be empty.')
     }
 
-    def "Creating election when there aren't at least two answers should return error"() {
+    def "Registering election when there aren't at least two answers should return error"() {
         when:
-        doThrow(NotEnoughAnswersException).when(electionCreationServiceMock).createElection(any())
+        doThrow(NotEnoughAnswersException).when(electionRegistrationServiceMock).registerElection(any())
         then:
         performBadElectionCreationRequestAndVerifyThatReturnedErrorMessageIs('There must be at least two possible answers.')
     }
 
-    def "Creating election when there aren't at least three voters should return error"() {
+    def "Registering election when there aren't at least three voters should return error"() {
         when:
-        doThrow(NotEnoughVotersException).when(electionCreationServiceMock).createElection(any())
+        doThrow(NotEnoughVotersException).when(electionRegistrationServiceMock).registerElection(any())
         then:
         performBadElectionCreationRequestAndVerifyThatReturnedErrorMessageIs('There must be at least three invited voters.')
 
     }
 
-    def "Creating election when any of the voters does not exist should return error"() {
+    def "Registering election when any of the voters does not exist should return error"() {
         when:
-        doThrow(new VoterDoesNotExistException(['Link'].toSet())).when(electionCreationServiceMock).createElection(any())
+        doThrow(new VoterDoesNotExistException(['Link'].toSet())).when(electionRegistrationServiceMock).registerElection(any())
         then:
         performBadElectionCreationRequestAndVerifyThatReturnedErrorMessageIs('Voters with usernames [Link] not found.')
     }
 
     def "Failure to transfer created election details to Tabulation Authority returns error"() {
         when:
-        doThrow(new ElectionTransferFailedException()).when(electionCreationServiceMock).createElection(any())
+        doThrow(new ElectionTransferFailedException()).when(electionRegistrationServiceMock).registerElection(any())
         then:
         performElectionCreationRequest()
                 .andExpect(status().is5xxServerError())
@@ -118,7 +111,7 @@ class ElectionCreationControllerSpec extends Specification {
     private ResultActions performElectionCreationRequest() {
         mockMvc.perform(post("/elections")
                 .contentType(TestUtils.APPLICATION_JSON_UTF8)
-                .content(TestUtils.convertObjectToJsonBytes(mockElectionCreation))
+                .content(TestUtils.convertObjectToJsonBytes(mockElectionRegistration))
         )
     }
 

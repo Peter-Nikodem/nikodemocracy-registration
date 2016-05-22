@@ -2,8 +2,6 @@ package net.nikodem.util
 
 import spock.lang.Specification
 
-import javax.validation.Validation
-
 class ValidationPreconditionsTest extends Specification {
 
     def "isNullOrEmpty returns true if string is null or empty"() { //thanks, Magic

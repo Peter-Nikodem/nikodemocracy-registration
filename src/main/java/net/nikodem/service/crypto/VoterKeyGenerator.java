@@ -1,8 +1,7 @@
-package net.nikodem.service;
+package net.nikodem.service.crypto;
 
-import java.security.SecureRandom;
-import java.util.Random;
-import java.util.stream.IntStream;
+import java.security.*;
+import java.util.*;
 
 /**
  * Generator of securely random alphanumeric strings.

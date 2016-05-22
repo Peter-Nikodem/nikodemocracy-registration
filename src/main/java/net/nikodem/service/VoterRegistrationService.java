@@ -1,18 +1,18 @@
 package net.nikodem.service;
 
-import net.nikodem.model.entity.VoterEntity;
-import net.nikodem.model.json.VoterRegistrationRequest;
-import net.nikodem.repository.VoterRepository;
-import net.nikodem.service.validation.VoterValidator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import net.nikodem.model.dto.*;
+import net.nikodem.model.entity.*;
+import net.nikodem.repository.*;
+import net.nikodem.service.validation.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.security.crypto.bcrypt.*;
+import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
 
 @Service
 public class VoterRegistrationService {
 
-    private VoterValidator voterValidator;
+    private VoterRegistrationValidator voterValidator;
     private VoterRepository voterRepository;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -34,7 +34,7 @@ public class VoterRegistrationService {
     }
 
     @Autowired
-    public void setVoterValidator(VoterValidator voterValidator) {
+    public void setVoterValidator(VoterRegistrationValidator voterValidator) {
         this.voterValidator = voterValidator;
     }
 

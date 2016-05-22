@@ -1,18 +1,18 @@
-package net.nikodem.model.json;
+package net.nikodem.model.dto;
 
-import java.util.List;
+import java.util.*;
 
-public class ElectionCreationRequest {
+public class ElectionRegistrationRequest {
 
     private String electionId;
     private String question;
     private List<String> answers;
     private List<String> invitedVoters;
 
-    public ElectionCreationRequest() {
+    public ElectionRegistrationRequest() {
     }
 
-    public ElectionCreationRequest(String electionId, String question, List<String> answers, List<String>
+    public ElectionRegistrationRequest(String electionId, String question, List<String> answers, List<String>
             invitedVoters) {
         this.electionId = electionId;
         this.question = question;

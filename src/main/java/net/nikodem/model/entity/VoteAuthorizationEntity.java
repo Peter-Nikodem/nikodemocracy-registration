@@ -1,12 +1,9 @@
 package net.nikodem.model.entity;
 
-import net.nikodem.model.json.VoteAuthorizationResponse;
+import net.nikodem.model.dto.*;
 
 import javax.persistence.*;
 
-/**
- * @TODO rename to permission
- */
 @Entity(name = "VoteAuthorization")
 public class VoteAuthorizationEntity {
 

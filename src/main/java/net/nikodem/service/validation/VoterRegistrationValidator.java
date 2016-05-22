@@ -1,18 +1,15 @@
 package net.nikodem.service.validation;
 
-import net.nikodem.model.exception.EmptyPasswordException;
-import net.nikodem.model.exception.EmptyUsernameException;
-import net.nikodem.model.exception.RepeatedPasswordDoesNotMatchException;
-import net.nikodem.model.exception.UsernameAlreadyExistsException;
-import net.nikodem.model.json.VoterRegistrationRequest;
-import net.nikodem.repository.VoterRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import net.nikodem.model.dto.*;
+import net.nikodem.model.exception.*;
+import net.nikodem.repository.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
 
-import static net.nikodem.util.ValidationPreconditions.isNullOrEmpty;
+import static net.nikodem.util.ValidationPreconditions.*;
 
 @Component
-public class VoterValidator {
+public class VoterRegistrationValidator {
 
     private VoterRepository voterRepository;
 

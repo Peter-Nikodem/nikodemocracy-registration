@@ -1,11 +1,6 @@
 package net.nikodem.model.entity;
 
-import net.nikodem.model.json.VoterRegistrationRequest;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity(name = "Voter")
 public class VoterEntity {

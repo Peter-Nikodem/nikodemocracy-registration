@@ -1,11 +1,8 @@
 package net.nikodem.model.entity;
 
-import net.nikodem.model.json.ElectionCreationRequest;
+import net.nikodem.model.dto.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity(name = "Election")
 public class ElectionEntity {
@@ -31,8 +28,8 @@ public class ElectionEntity {
         this.isFinished = false;
     }
 
-    public static ElectionEntity fromCreationRequest(ElectionCreationRequest electionCreationRequest) {
-        return new ElectionEntity(electionCreationRequest.getElectionId(), electionCreationRequest.getQuestion());
+    public static ElectionEntity fromCreationRequest(ElectionRegistrationRequest electionRegistrationRequest) {
+        return new ElectionEntity(electionRegistrationRequest.getElectionId(), electionRegistrationRequest.getQuestion());
     }
 
     public String getElectionId() {

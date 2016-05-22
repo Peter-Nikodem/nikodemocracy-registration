@@ -1,9 +1,10 @@
 package net.nikodem.service;
 
+import net.nikodem.model.dto.*;
 import net.nikodem.model.entity.*;
 import net.nikodem.model.exception.*;
-import net.nikodem.model.json.*;
 import net.nikodem.repository.*;
+import net.nikodem.service.crypto.*;
 import net.nikodem.service.validation.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
@@ -24,22 +25,29 @@ public class VoteAuthorizationService {
     }
 
     private VoteAuthorizationResponse findVoteAuthorizationResponse(VoteAuthorizationRequest request) {
-        return voteAuthorizationRepository.findByVoterUsernameAndElectionElectionId(request.getUsername(), request
-                .getElectionId())
+        return voteAuthorizationRepository.findByVoterUsernameAndElectionElectionId(request.getUsername(), request.getElectionId())
                 .get()
                 .toVoteAuthorizationResponse();
     }
 
     protected List<String> createAndSaveAuthorizations(ElectionEntity electionEntity, List<String>
             eligibleVoterUsernames) {
+        List<VoteAuthorizationEntity> authorizations = getVoteAuthorizations(electionEntity, eligibleVoterUsernames);
+        voteAuthorizationRepository.save(authorizations);
+        return getVoterKeys(authorizations);
+    }
+
+    private List<VoteAuthorizationEntity> getVoteAuthorizations(ElectionEntity electionEntity, List<String> eligibleVoterUsernames) {
         VoterKeyGenerator generator = new VoterKeyGenerator();
-        List<VoteAuthorizationEntity> authorizations = eligibleVoterUsernames.stream()
+        return eligibleVoterUsernames.stream()
                 .map(voterRepository::findByUsername)
                 .map(Optional::get)
                 .map(voterEntity -> new VoteAuthorizationEntity(generator.generateNextRandomVoterKey(), voterEntity,
                         electionEntity))
                 .collect(Collectors.toList());
-        voteAuthorizationRepository.save(authorizations);
+    }
+
+    private List<String> getVoterKeys(List<VoteAuthorizationEntity> authorizations) {
         return authorizations.stream()
                 .map(VoteAuthorizationEntity::getVoterKey)
                 .collect(Collectors.toList());

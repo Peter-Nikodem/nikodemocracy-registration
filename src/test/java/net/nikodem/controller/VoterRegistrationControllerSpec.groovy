@@ -1,12 +1,13 @@
 package net.nikodem.controller
 
 import net.nikodem.TestUtils
+import net.nikodem.model.dto.VoterRegistrationRequest
 import net.nikodem.model.exception.EmptyPasswordException
 import net.nikodem.model.exception.EmptyUsernameException
 import net.nikodem.model.exception.RepeatedPasswordDoesNotMatchException
 import net.nikodem.model.exception.UsernameAlreadyExistsException
-import net.nikodem.model.json.VoterRegistrationRequest
 import net.nikodem.service.VoterRegistrationService
+import net.nikodem.testdata.ExampleVoter
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
@@ -20,9 +21,7 @@ import static org.mockito.Matchers.any
 import static org.mockito.Mockito.doNothing
 import static org.mockito.Mockito.doThrow
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
 class VoterRegistrationControllerSpec extends Specification {
 
@@ -34,7 +33,7 @@ class VoterRegistrationControllerSpec extends Specification {
     @InjectMocks
     VoterRegistrationController voterRegistrationController
 
-    VoterRegistrationRequest mockVoterRegistration = new VoterRegistrationRequest("Not", "important", "here");
+    VoterRegistrationRequest mockVoterRegistration = ExampleVoter.BOB.voterRegistrationRequest;
 
 
     def setup() {
@@ -42,7 +41,7 @@ class VoterRegistrationControllerSpec extends Specification {
         this.mockMvc = MockMvcBuilders.standaloneSetup(voterRegistrationController).build()
     }
 
-    def "Registering voter when details are valid should return HTTP code CREATED"() {
+    def "Registering voter when details are valid returns HTTP code CREATED"() {
         when:
         doNothing().when(voterRegistrationServiceMock).registerVoter(any());
         then:
@@ -53,21 +52,21 @@ class VoterRegistrationControllerSpec extends Specification {
                 .andExpect(status().isCreated());
     }
 
-    def "Registering voter when username already exists should return error"() {
+    def "Registering voter when username already exists returns error"() {
         when:
         doThrow(UsernameAlreadyExistsException).when(voterRegistrationServiceMock).registerVoter(any());
         then:
         performBadRegistrationRequestAndVerifyThatReturnedErrorMessageIs('Entered username already exists.')
     }
 
-    def "Registering voter when passwords do not match should return error"() {
+    def "Registering voter when passwords do not match returns error"() {
         when:
         doThrow(RepeatedPasswordDoesNotMatchException).when(voterRegistrationServiceMock).registerVoter(any())
         then:
         performBadRegistrationRequestAndVerifyThatReturnedErrorMessageIs('Password and repeated password must match.')
     }
 
-    def "Registering voter when username is empty should return error"() {
+    def "Registering voter when username is empty returns error"() {
         when:
         doThrow(EmptyUsernameException).when(voterRegistrationServiceMock).registerVoter(any())
         then:
@@ -75,7 +74,7 @@ class VoterRegistrationControllerSpec extends Specification {
 
     }
 
-    def "Registering voter when password is empty should return error"() {
+    def "Registering voter when password is empty returns error"() {
         when:
         doThrow(EmptyPasswordException).when(voterRegistrationServiceMock).registerVoter(any())
         then:
