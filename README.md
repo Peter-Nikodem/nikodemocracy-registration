@@ -1,10 +1,8 @@
 RESTful registration authority for a simple voting system protocol.
 
-Description:
+## Description
 
 My second attempt for a proof of concept for an implementation of a secure election protocol with 2 central authorities mentioned in Bruce Schneier's Applied Cryptography.
-
-## Description
 
 According to Schenier, ideal voting protocol has, at the very least, these six requirements:
  1. Only authorized voters can vote.
@@ -16,12 +14,12 @@ According to Schenier, ideal voting protocol has, at the very least, these six r
 
 One of the proposed ways to achieve this is to use two central authorities.
 
-### Original protocol
+### Protocol
 
 #### Registration authority (RA)
   - responsible for creating election and registering voters.
 
-#### Tabulation authority (TA)
+#### Tabulation authority (TA) - https://github.com/Peter-Nikodem/nikodemocracy-tabulation
   - responsible for tabulating votes and publishing results.
 
 #### Steps:
